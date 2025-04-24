@@ -1,0 +1,14 @@
+package com.miapp.apuestasCordoba.repository;
+
+import com.miapp.apuestasCordoba.model.Anuncio;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+@Repository
+public interface AnuncioRepository extends JpaRepository<Anuncio, Long> {
+
+    List<Anuncio> findByCompeticionIdAndFechaExpiracionAfter(Long competicionId, LocalDateTime fechaActual);
+}
