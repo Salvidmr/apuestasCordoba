@@ -4,6 +4,7 @@ import logo from "../assets/logo.png";
 
 function Register() {
   const [nombreUsuario, setNombreUsuario] = useState("");
+  const [nombreYapellidos, setNombreYapellidos] = useState(""); // Nuevo campo
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmarPassword, setConfirmarPassword] = useState("");
@@ -18,7 +19,7 @@ function Register() {
       return;
     }
 
-    const datos = { nombreUsuario, email, password };
+    const datos = { nombreUsuario, nombreYapellidos, email, password };
 
     try {
       const response = await fetch("http://localhost:8080/api/usuarios/registrar", {
@@ -60,6 +61,14 @@ function Register() {
             className="w-full p-2 border border-gray-300 rounded mb-4"
             value={nombreUsuario}
             onChange={(e) => setNombreUsuario(e.target.value)}
+            required
+          />
+          <input
+            type="text"
+            placeholder="Nombre y apellidos"
+            className="w-full p-2 border border-gray-300 rounded mb-4"
+            value={nombreYapellidos}
+            onChange={(e) => setNombreYapellidos(e.target.value)}
             required
           />
           <input

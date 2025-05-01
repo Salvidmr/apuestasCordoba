@@ -31,6 +31,10 @@ public class Usuario {
 	private String password;
 
 	@Column(nullable = false)
+	private String nombreYapellidos;
+
+
+	@Column(nullable = false)
 	private String rol; // "admin" o "user"
 
 //	@Column(nullable = false)
@@ -115,4 +119,13 @@ public class Usuario {
 	public void setCompeticiones(List<Competicion> competiciones) {
 		this.competiciones = competiciones;
 	}
+
+	public String getNombreYapellidos() {
+		return nombreYapellidos;
+	}
+	
+	public void setNombreYapellidos(String nombreYapellidos) {
+		this.nombreYapellidos = nombreYapellidos;
+	}
+	
 }
