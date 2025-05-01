@@ -65,8 +65,8 @@ function UsuarioCompeticion() {
         <span className="text-sm font-semibold">{nombreUsuario}</span>
       </header>
 
-      {/* Subheader dorado */}
-      <nav className="bg-yellow-400 shadow flex divide-x divide-yellow-600">
+      {/* Subheader */}
+      <nav className="bg-green-200 shadow flex divide-x divide-green-300">
         {[
           { label: "Realizar Pronósticos", ruta: "pronosticar" },
           { label: "Clasificación", ruta: "clasificacion" },
@@ -75,7 +75,7 @@ function UsuarioCompeticion() {
           <button
             key={opcion.ruta}
             onClick={() => navigate(`/usuario/competicion/${competicionId}/${opcion.ruta}`)}
-            className="flex-1 py-3 text-center text-green-900 font-semibold hover:bg-yellow-300 transition"
+            className="flex-1 py-3 text-center text-green-900 font-semibold hover:bg-green-300 transition"
           >
             {opcion.label}
           </button>
