@@ -48,6 +48,38 @@ function AdminVerPronosticos() {
     fetchApuestas(partido.id);
   };
 
+  const calcularPuntos = (a) => {
+    const partido = a.partido;
+    if (
+      !partido ||
+      partido.golesLocal == null ||
+      partido.golesVisitante == null ||
+      a.golesLocal == null ||
+      a.golesVisitante == null
+    ) {
+      return null;
+    }
+
+    const exacto =
+      a.golesLocal === partido.golesLocal &&
+      a.golesVisitante === partido.golesVisitante;
+
+    const resultado = (l, v) => {
+      if (l > v) return "L";
+      if (l < v) return "V";
+      return "E";
+    };
+
+    const aciertoSimple =
+      !exacto &&
+      resultado(a.golesLocal, a.golesVisitante) ===
+        resultado(partido.golesLocal, partido.golesVisitante);
+
+    if (exacto) return `+${competicion.puntosPorResultadoExacto}`;
+    if (aciertoSimple) return `+${competicion.puntosPorAciertoSimple}`;
+    return "+0";
+  };
+
   useEffect(() => {
     fetchCompeticion();
     fetchPartidos();
@@ -55,7 +87,6 @@ function AdminVerPronosticos() {
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
-      {/* Header */}
       <header className="bg-white shadow-md py-4 px-6 flex items-center justify-between">
         <div className="flex items-center space-x-4">
           <img src={logo} alt="Logo" className="h-10 w-auto" />
@@ -66,13 +97,11 @@ function AdminVerPronosticos() {
         </span>
       </header>
 
-      {/* Contenido */}
       <main className="p-6 max-w-3xl mx-auto w-full flex-grow">
         <h2 className="text-xl font-bold text-gray-800 mb-4 text-center">
           Pronósticos de la competición
         </h2>
 
-        {/* Selector de partido */}
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Selecciona un partido:
@@ -94,7 +123,6 @@ function AdminVerPronosticos() {
           </select>
         </div>
 
-        {/* Botón de volver */}
         <div className="mb-6 text-center">
           <button
             onClick={() => navigate(`/admin/competicion/${competicionId}`)}
@@ -105,7 +133,6 @@ function AdminVerPronosticos() {
           </button>
         </div>
 
-        {/* Lista de pronósticos */}
         {partidoSeleccionado && apuestas.length === 0 ? (
           <p className="text-center text-gray-600 italic">
             Aún no hay pronósticos para este partido.
@@ -119,7 +146,8 @@ function AdminVerPronosticos() {
               >
                 <span className="font-medium">{a.usuario.nombreYapellidos}</span>
                 <span>
-                  {a.golesLocal} - {a.golesVisitante}
+                  {a.golesLocal} - {a.golesVisitante}{" "}
+                  <span className="text-sm text-gray-500 ml-1">{calcularPuntos(a)}</span>
                 </span>
               </li>
             ))}
