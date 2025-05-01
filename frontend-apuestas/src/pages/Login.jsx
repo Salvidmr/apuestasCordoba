@@ -6,7 +6,7 @@ function Login() {
   const [nombreUsuario, setNombreUsuario] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false); // 👈 estado del loader
+  const [loading, setLoading] = useState(false); 
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
@@ -26,13 +26,14 @@ function Login() {
       const resultado = await response.json();
 
       if (response.ok) {
-        const { token, rol, id } = resultado;
+        const { token, rol, id, nombreYapellidos } = resultado;
 
         if (token && rol && id) {
           localStorage.setItem("token", token);
           localStorage.setItem("rol", rol);
           localStorage.setItem("id", id);
           localStorage.setItem("nombreUsuario", nombreUsuario);
+          localStorage.setItem("nombreYapellidos", nombreYapellidos); 
 
           await new Promise((res) => setTimeout(res, 100));
           navigate(rol === "admin" ? "/admin" : "/usuario");

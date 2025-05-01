@@ -31,7 +31,7 @@ function Clasificacion() {
 
       const combinada = participantesData.map((usuario) => ({
         id: usuario.id,
-        nombreUsuario: usuario.nombreUsuario,
+        nombreUsuario: usuario.nombreYapellidos,
         puntos: puntosMap.get(usuario.id) || 0,
       }));
 

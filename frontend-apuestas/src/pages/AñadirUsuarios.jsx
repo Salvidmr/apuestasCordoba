@@ -102,7 +102,7 @@ function AñadirUsuarios() {
                                     key={u.id}
                                     className="bg-white p-4 rounded-lg shadow flex justify-between items-center border"
                                 >
-                                    <span className="font-medium text-gray-800">{u.nombreUsuario}</span>
+                                    <span className="font-medium text-gray-800">{u.nombreYapellidos}</span>
 
                                     {yaEsta ? (
                                         <button

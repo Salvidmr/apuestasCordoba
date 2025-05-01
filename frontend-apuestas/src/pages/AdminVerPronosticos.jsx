@@ -117,7 +117,7 @@ function AdminVerPronosticos() {
                 key={a.id}
                 className="bg-white p-3 rounded shadow border flex justify-between items-center text-gray-800"
               >
-                <span className="font-medium">{a.usuario.nombreUsuario}</span>
+                <span className="font-medium">{a.usuario.nombreYapellidos}</span>
                 <span>
                   {a.golesLocal} - {a.golesVisitante}
                 </span>

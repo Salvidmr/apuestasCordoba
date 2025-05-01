@@ -8,6 +8,7 @@ function UsuarioVerPronosticos() {
   const token = localStorage.getItem("token");
   const usuarioId = localStorage.getItem("id");
   const nombreUsuario = localStorage.getItem("nombreUsuario");
+  const nombreYApellidos = localStorage.getItem("nombreYapellidos");
 
   const [competicion, setCompeticion] = useState(null);
   const [partidos, setPartidos] = useState([]);
@@ -48,8 +49,6 @@ function UsuarioVerPronosticos() {
     setPartidoSeleccionado(partido);
     fetchApuestas(partido.id);
   };
-
-  const partidoYaEmpezo = (fecha) => new Date(fecha) <= new Date();
 
   useEffect(() => {
     fetchCompeticion();
@@ -119,11 +118,7 @@ function UsuarioVerPronosticos() {
         </div>
 
         {/* Mostrar apuestas */}
-        {partidoSeleccionado && !partidoYaEmpezo(partidoSeleccionado.fechaHora) ? (
-          <p className="text-center text-gray-600 italic">
-            Los pronósticos estarán disponibles cuando comience el partido.
-          </p>
-        ) : partidoSeleccionado && apuestas.length === 0 ? (
+        {partidoSeleccionado && apuestas.length === 0 ? (
           <p className="text-center text-gray-600 italic">
             Nadie ha realizado pronósticos para este partido aún.
           </p>
@@ -133,10 +128,12 @@ function UsuarioVerPronosticos() {
               <li
                 key={a.id}
                 className={`bg-white p-3 rounded shadow border flex justify-between items-center ${
-                  a.usuario.id === parseInt(usuarioId) ? "font-bold text-green-700" : "text-gray-800"
+                  a.usuario.id === parseInt(usuarioId)
+                    ? "font-bold text-green-700"
+                    : "text-gray-800"
                 }`}
               >
-                <span>{a.usuario.nombreUsuario}</span>
+                <span>{a.usuario.nombreYapellidos}</span>
                 <span>
                   {a.golesLocal} - {a.golesVisitante}
                 </span>

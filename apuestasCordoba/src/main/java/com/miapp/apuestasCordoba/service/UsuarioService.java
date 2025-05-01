@@ -62,6 +62,7 @@ public class UsuarioService {
         response.put("rol", usuario.getRol());
         response.put("id", usuario.getId());
         response.put("nombreUsuario", usuario.getNombreUsuario());
+        response.put("nombreYapellidos", usuario.getNombreYapellidos());
 
         return response;
     }

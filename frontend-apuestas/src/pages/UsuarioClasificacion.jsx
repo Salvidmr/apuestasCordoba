@@ -7,6 +7,7 @@ function UsuarioClasificacion() {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const nombreUsuario = localStorage.getItem("nombreUsuario");
+  const nombreYapellidos = localStorage.getItem("nombreYapellidos");
 
   const [competicion, setCompeticion] = useState(null);
   const [clasificacion, setClasificacion] = useState([]);
@@ -36,7 +37,7 @@ function UsuarioClasificacion() {
 
       const completada = participantesData.map((usuario) => ({
         id: usuario.id,
-        nombreUsuario: usuario.nombreUsuario,
+        nombreUsuario: usuario.nombreYapellidos,
         puntos: puntosMap.get(usuario.id) || 0,
       }));
 
@@ -61,7 +62,7 @@ function UsuarioClasificacion() {
         <h1 className="text-xl font-bold text-center">
           {competicion?.nombre || "..."}
         </h1>
-        <span className="text-sm font-semibold">{nombreUsuario}</span>
+        <span className="text-sm font-semibold">{nombreYapellidos}</span>
       </header>
 
       {/* Subheader dorado */}
@@ -142,7 +143,7 @@ function UsuarioClasificacion() {
                       ? "bg-orange-50"
                       : "";
 
-                  const esYo = usuario.nombreUsuario === nombreUsuario;
+                  const esYo = usuario.nombreUsuario === nombreYapellidos;
 
                   return (
                     <tr
