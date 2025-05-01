@@ -18,7 +18,8 @@ import UsuarioCompeticion from "./pages/UsuarioCompeticion";
 import UsuarioClasificacion from './pages/UsuarioClasificacion';
 import UsuarioPronosticos from './pages/UsuarioPronosticos';
 import UsuarioVerPronosticos from './pages/UsuarioVerPronosticos';
-
+import PerfilAdministrador from './pages/PerfilAdministrador';
+import PerfilUsuario from './pages/PerfilUsuario';
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem('token'));
@@ -69,6 +70,11 @@ function App() {
       />
 
       <Route
+        path="/admin/perfil"
+        element={token && rol === 'admin' ? <PerfilAdministrador /> : <Navigate to="/login" />}
+      />
+
+      <Route
         path="/admin/competicion/:id/crear-partido"
         element={token && rol === "admin" ? <CrearPartido /> : <Navigate to="/login" />}
       />
@@ -111,6 +117,11 @@ function App() {
       <Route
         path="/usuario/competicion/:id/pronosticar"
         element={<UsuarioPronosticos />}
+      />
+
+      <Route
+        path="/usuario/perfil"
+        element={token && rol === 'user' ? <PerfilUsuario /> : <Navigate to="/login" />}
       />
 
       <Route

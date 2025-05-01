@@ -78,9 +78,12 @@ function AdminHome() {
           <h1 className="text-2xl font-bold text-green-700 whitespace-nowrap">Arcanfield Road</h1>
         </div>
         <div className="flex items-center gap-4 flex-wrap justify-center">
-          <span className="text-sm text-gray-700 font-semibold whitespace-nowrap">
-            Admin: <span className="text-green-700">{nombreAdmin}</span>
-          </span>
+        <span
+          className="text-sm text-green-700 font-semibold cursor-pointer underline hover:text-green-800 whitespace-nowrap"
+          onClick={() => navigate("/admin/perfil")}
+        >
+          Admin: {nombreAdmin}
+        </span>
           <button
             onClick={handleLogout}
             className="text-red-600 hover:text-red-800 flex items-center gap-1"

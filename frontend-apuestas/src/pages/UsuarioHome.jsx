@@ -38,7 +38,12 @@ function UsuarioHome() {
     <div className="min-h-screen flex flex-col bg-gray-100">
       {/* Header */}
       <header className="bg-green-700 text-white py-4 px-6 flex justify-between items-center">
-        <span className="text-lg font-semibold">{nombreUsuario}</span>
+        <span
+          className="text-lg font-semibold cursor-pointer hover:underline"
+          onClick={() => navigate("/usuario/perfil")}
+        >
+          {nombreUsuario}
+        </span>
         <div className="flex items-center justify-center gap-3">
           <img src={logo} alt="Logo" className="h-10 w-auto" />
           <h1 className="text-2xl font-bold">Arcanfield Road</h1>
