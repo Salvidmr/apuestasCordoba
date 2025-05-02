@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import * as XLSX from "xlsx";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable"; 
 import logo from "../assets/logo.png";
+import { FileText, FileSpreadsheet } from "lucide-react";
 
 function Clasificacion() {
   const { id: competicionId } = useParams();
@@ -44,6 +48,28 @@ function Clasificacion() {
     }
   };
 
+  const exportToExcel = () => {
+    const worksheet = XLSX.utils.json_to_sheet(
+      clasificacion.map((u, i) => ({
+        Posición: i + 1,
+        Usuario: u.nombreUsuario,
+        Puntos: u.puntos ?? 0,
+      }))
+    );
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Clasificación");
+    XLSX.writeFile(workbook, "clasificacion.xlsx");
+  };
+
+  const exportToPDF = () => {
+    const doc = new jsPDF();
+      autoTable(doc, {
+        head: [["Posición", "Usuario", "Puntos"]],
+        body: clasificacion.map((u, i) => [i + 1, u.nombreUsuario, u.puntos ?? 0]),
+      });
+    doc.save("clasificacion.pdf");
+  };
+
   useEffect(() => {
     fetchClasificacion();
   }, [competicionId]);
@@ -66,9 +92,25 @@ function Clasificacion() {
 
       {/* Contenido */}
       <main className="p-6 max-w-3xl mx-auto">
-        <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
+        <h2 className="text-2xl font-bold text-gray-800 mb-4 text-center">
           Clasificación
         </h2>
+
+        {/* Botones de exportación */}
+        <div className="flex justify-end gap-3 mb-4">
+          <button
+            onClick={exportToExcel}
+            className="flex items-center gap-2 bg-green-100 hover:bg-green-200 text-green-800 font-semibold py-2 px-4 rounded"
+          >
+            <FileSpreadsheet size={18} /> Exportar a Excel
+          </button>
+          <button
+            onClick={exportToPDF}
+            className="flex items-center gap-2 bg-red-100 hover:bg-red-200 text-red-700 font-semibold py-2 px-4 rounded"
+          >
+            <FileText size={18} /> Exportar a PDF
+          </button>
+        </div>
 
         {cargando ? (
           <p className="text-center text-gray-600">Cargando clasificación...</p>
