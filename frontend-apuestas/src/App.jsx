@@ -20,6 +20,7 @@ import UsuarioPronosticos from './pages/UsuarioPronosticos';
 import UsuarioVerPronosticos from './pages/UsuarioVerPronosticos';
 import PerfilAdministrador from './pages/PerfilAdministrador';
 import PerfilUsuario from './pages/PerfilUsuario';
+import UsuarioReglas from './pages/UsuarioReglas';
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem('token'));
@@ -127,6 +128,11 @@ function App() {
       <Route
         path="/usuario/competicion/:id/ver-pronosticos"
         element={<UsuarioVerPronosticos />}
+      />
+
+      <Route
+        path="/usuario/competicion/:id/reglas"
+        element={token && rol === "user" ? <UsuarioReglas /> : <Navigate to="/login" />}
       />
 
 

@@ -142,7 +142,18 @@ function UsuarioCompeticion() {
             </div>
           </div>
         )}
-      </main>
+      
+
+            {/* Botón Reglas del Juego */}
+      <div className="text-center mt-8">
+        <button
+          onClick={() => navigate(`/usuario/competicion/${competicionId}/reglas`)}
+          className="inline-block px-5 py-2 bg-green-600 text-white rounded hover:bg-green-700 font-semibold transition"
+        >
+          Reglas del juego
+        </button>
+      </div></main>
+
 
       {/* Footer */}
       <footer className="bg-green-700 text-white py-3 text-center mt-auto">
