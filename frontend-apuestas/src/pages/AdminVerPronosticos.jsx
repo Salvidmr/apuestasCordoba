@@ -93,7 +93,8 @@ function AdminVerPronosticos() {
           <h1 className="text-xl font-bold text-green-700">Arcanfield Road</h1>
         </div>
         <span className="text-sm text-gray-700 font-semibold">
-          Admin: <span className="text-green-700">{localStorage.getItem("nombreUsuario")}</span>
+          Admin: <span className="text-green-700"  onClick={() => navigate("/admin/perfil")}>
+            {localStorage.getItem("nombreUsuario")}</span>
         </span>
       </header>
 

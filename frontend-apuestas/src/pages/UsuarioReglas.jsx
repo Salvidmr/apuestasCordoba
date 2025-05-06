@@ -25,10 +25,9 @@ function UsuarioReglas() {
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
       <header className="bg-green-700 text-white py-4 px-6 flex justify-between items-center">
-        <span className="font-semibold">{localStorage.getItem("nombreUsuario")}</span>
+        <span className="font-semibold" onClick={() => navigate("/usuario/perfil")}>{localStorage.getItem("nombreUsuario")}</span>
         <div className="flex items-center gap-3">
-          <img src={logo} alt="Logo" className="h-10 w-auto" />
-          <h1 className="text-2xl font-bold">Arcanfield Road</h1>
+          <h1 className="text-xl font-bold text-center">{competicion?.nombre || "..."}</h1>
         </div>
         <button
           onClick={() => navigate(`/usuario/competicion/${competicionId}`)}

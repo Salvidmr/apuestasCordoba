@@ -83,7 +83,8 @@ function TablonAnuncios() {
         </div>
         <div className="text-sm text-gray-700 font-semibold">
           Admin:{" "}
-          <span className="text-green-700">{localStorage.getItem("nombreUsuario")}</span>
+          <span className="text-green-700" onClick={() => navigate("/admin/perfil")}>
+            {localStorage.getItem("nombreUsuario")}</span>
         </div>
       </header>
 

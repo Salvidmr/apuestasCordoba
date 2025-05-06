@@ -60,7 +60,8 @@ function CrearCompeticion() {
           <h1 className="text-2xl font-bold text-green-700">Arcanfield Road</h1>
         </div>
         <div className="text-sm text-gray-700 font-semibold">
-          Admin: <span className="text-green-700">{localStorage.getItem("nombreUsuario")}</span>
+          Admin: <span className="text-green-700" onClick={() => navigate("/admin/perfil")}>
+            {localStorage.getItem("nombreUsuario")}</span>
         </div>
       </header>
 
@@ -100,7 +101,14 @@ function CrearCompeticion() {
             Crear competición
           </button>
         </form>
+
       </main>
+      <button
+        onClick={() => navigate("/admin")}
+        className="mt-8 text-green-700 underline hover:text-green-800 block mx-auto"
+      >
+        ← Volver a la página principal del administrador
+      </button>
     </div>
   );
 }

@@ -90,7 +90,7 @@ function UsuarioVerPronosticos() {
       <header className="bg-green-700 text-white py-4 px-6 flex justify-between items-center">
         <img src={logo} alt="Logo" className="h-10 w-auto" />
         <h1 className="text-xl font-bold text-center">{competicion?.nombre || "..."}</h1>
-        <span className="text-sm font-semibold">{nombreUsuario}</span>
+        <span className="text-sm font-semibold" onClick={() => navigate("/usuario/perfil")}>{nombreUsuario}</span>
       </header>
 
       <nav className="bg-green-200 shadow flex divide-x divide-green-300">

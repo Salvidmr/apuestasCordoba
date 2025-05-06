@@ -62,7 +62,7 @@ function UsuarioClasificacion() {
         <h1 className="text-xl font-bold text-center">
           {competicion?.nombre || "..."}
         </h1>
-        <span className="text-sm font-semibold">{nombreYapellidos}</span>
+        <span className="text-sm font-semibold" onClick={() => navigate("/usuario/perfil")}>{nombreUsuario}</span>
       </header>
 
       {/* Subheader */}

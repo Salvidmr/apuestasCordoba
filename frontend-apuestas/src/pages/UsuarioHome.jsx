@@ -46,7 +46,7 @@ function UsuarioHome() {
         </span>
         <div className="flex items-center justify-center gap-3">
           <img src={logo} alt="Logo" className="h-10 w-auto" />
-          <h1 className="text-2xl font-bold">Arcanfield Road</h1>
+          <h1 className="text-2xl font-bold hidden sm:block">Arcanfield Road</h1>
         </div>
         <button
           onClick={handleLogout}
