@@ -6,8 +6,7 @@ function Login() {
   const [nombreUsuario, setNombreUsuario] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false); 
-  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -33,10 +32,9 @@ function Login() {
           localStorage.setItem("rol", rol);
           localStorage.setItem("id", id);
           localStorage.setItem("nombreUsuario", nombreUsuario);
-          localStorage.setItem("nombreYapellidos", nombreYapellidos); 
+          localStorage.setItem("nombreYapellidos", nombreYapellidos);
 
-          await new Promise((res) => setTimeout(res, 100));
-          navigate(rol === "admin" ? "/admin" : "/usuario");
+          window.location.href = rol === "admin" ? "/admin" : "/usuario";
         } else {
           setError("Faltan datos en la respuesta del servidor.");
         }
