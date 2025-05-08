@@ -8,14 +8,14 @@ function UsuarioCompeticion() {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const nombreUsuario = localStorage.getItem("nombreUsuario");
-
+  const API_URL = import.meta.env.VITE_API_URL;
   const [competicion, setCompeticion] = useState(null);
   const [anuncios, setAnuncios] = useState([]);
   const [indexActivo, setIndexActivo] = useState(0);
 
   const fetchCompeticion = async () => {
     try {
-      const res = await fetch(`http://localhost:8080/api/competiciones/${competicionId}`, {
+      const res = await fetch(`${API_URL}/api/competiciones/${competicionId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (res.ok) {
@@ -29,7 +29,7 @@ function UsuarioCompeticion() {
 
   const fetchAnuncios = async () => {
     try {
-      const res = await fetch(`http://localhost:8080/api/anuncios/competicion/${competicionId}`, {
+      const res = await fetch(`${API_URL}/api/anuncios/competicion/${competicionId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (res.ok) {

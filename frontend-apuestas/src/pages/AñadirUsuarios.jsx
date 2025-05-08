@@ -9,10 +9,10 @@ function AñadirUsuarios() {
     const [participantes, setParticipantes] = useState([]);
     const token = localStorage.getItem("token");
     const navigate = useNavigate();
-
+    const API_URL = import.meta.env.VITE_API_URL;
     const fetchUsuarios = async () => {
         try {
-            const res = await fetch("http://localhost:8080/api/usuarios/listar", {
+            const res = await fetch(`${API_URL}/api/usuarios/listar`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
             const data = await res.json();
@@ -25,7 +25,7 @@ function AñadirUsuarios() {
     const fetchParticipantes = async () => {
         try {
             const res = await fetch(
-                `http://localhost:8080/api/competiciones/${competicionId}/participantes`,
+                `${API_URL}/api/competiciones/${competicionId}/participantes`,
                 {
                     headers: { Authorization: `Bearer ${token}` },
                 }
@@ -43,7 +43,7 @@ function AñadirUsuarios() {
     const añadirUsuario = async (usuarioId) => {
         try {
             const res = await fetch(
-                `http://localhost:8080/api/competiciones/${competicionId}/añadir-usuario/${usuarioId}`,
+                `${API_URL}/api/competiciones/${competicionId}/añadir-usuario/${usuarioId}`,
                 {
                     method: "POST",
                     headers: { Authorization: `Bearer ${token}` },
@@ -58,7 +58,7 @@ function AñadirUsuarios() {
     const quitarUsuario = async (usuarioId) => {
         try {
             const res = await fetch(
-                `http://localhost:8080/api/competiciones/${competicionId}/quitar-usuario/${usuarioId}`,
+                `${API_URL}/api/competiciones/${competicionId}/quitar-usuario/${usuarioId}`,
                 {
                     method: "DELETE",
                     headers: { Authorization: `Bearer ${token}` },

@@ -11,10 +11,10 @@ function CrearEquipo() {
   const [edicion, setEdicion] = useState({});
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
-
+  const API_URL = import.meta.env.VITE_API_URL;
   const fetchEquipos = async () => {
     try {
-      const res = await fetch("http://localhost:8080/api/equipos/listar", {
+      const res = await fetch(`${API_URL}/api/equipos/listar`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -31,7 +31,7 @@ function CrearEquipo() {
   const handleCrear = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("http://localhost:8080/api/equipos/crear", {
+      const res = await fetch(`${API_URL}/api/equipos/crear`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -57,7 +57,7 @@ function CrearEquipo() {
 
   const handleGuardarEdicion = async (id) => {
     try {
-      const res = await fetch(`http://localhost:8080/api/equipos/editar/${id}`, {
+      const res = await fetch(`${API_URL}/api/equipos/editar/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

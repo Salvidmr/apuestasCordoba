@@ -10,11 +10,12 @@ function TablonAnuncios() {
   const [anuncios, setAnuncios] = useState([]);
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
+  const API_URL = import.meta.env.VITE_API_URL;
 
   const fetchAnuncios = async () => {
     try {
       const res = await fetch(
-        `http://localhost:8080/api/anuncios/competicion/${competicionId}`,
+        `${API_URL}/api/anuncios/competicion/${competicionId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -34,7 +35,7 @@ function TablonAnuncios() {
     e.preventDefault();
     try {
       const res = await fetch(
-        `http://localhost:8080/api/anuncios/crear/${competicionId}`,
+        `${API_URL}/api/anuncios/crear/${competicionId}`,
         {
           method: "POST",
           headers: {
@@ -60,7 +61,7 @@ function TablonAnuncios() {
     if (!confirm) return;
 
     try {
-      const res = await fetch(`http://localhost:8080/api/anuncios/eliminar/${id}`, {
+      const res = await fetch(`${API_URL}/api/anuncios/eliminar/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });

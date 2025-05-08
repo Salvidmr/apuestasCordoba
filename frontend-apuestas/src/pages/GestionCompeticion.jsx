@@ -16,11 +16,12 @@ function GestionCompeticion() {
   const [competicion, setCompeticion] = useState(null);
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
+  const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     const fetchCompeticion = async () => {
       try {
-        const res = await fetch(`http://localhost:8080/api/competiciones/${id}`, {
+        const res = await fetch(`${API_URL}/api/competiciones/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

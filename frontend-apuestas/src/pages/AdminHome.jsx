@@ -7,7 +7,7 @@ function AdminHome() {
   const [competiciones, setCompeticiones] = useState([]);
   const [mostrarModal, setMostrarModal] = useState(false);
   const [competicionAEliminar, setCompeticionAEliminar] = useState(null);
-
+  const API_URL = import.meta.env.VITE_API_URL;
   const nombreAdmin = localStorage.getItem("nombreUsuario") || "Administrador";
   const adminId = localStorage.getItem("id");
   const token = localStorage.getItem("token");
@@ -15,7 +15,7 @@ function AdminHome() {
 
   const obtenerCompeticiones = async () => {
     try {
-      const response = await fetch(`http://localhost:8080/api/competiciones/admin/${adminId}`, {
+      const response = await fetch(`${API_URL}/api/competiciones/admin/${adminId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -39,7 +39,7 @@ function AdminHome() {
   const handleEliminarConfirmado = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8080/api/competiciones/eliminar/${competicionAEliminar.id}`,
+        `${API_URL}/api/competiciones/eliminar/${competicionAEliminar.id}`,
         {
           method: "DELETE",
           headers: {

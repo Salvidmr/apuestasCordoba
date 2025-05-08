@@ -6,14 +6,14 @@ function PerfilUsuario() {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const id = localStorage.getItem("id");
-
+  const API_URL = import.meta.env.VITE_API_URL;
   const [usuario, setUsuario] = useState(null);
   const [nuevaPassword, setNuevaPassword] = useState("");
   const [mensaje, setMensaje] = useState("");
 
   const fetchPerfil = async () => {
     try {
-      const res = await fetch(`http://localhost:8080/api/usuarios/${id}`, {
+      const res = await fetch(`${API_URL}/api/usuarios/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (res.ok) {
@@ -40,7 +40,7 @@ function PerfilUsuario() {
     };
 
     try {
-      const res = await fetch(`http://localhost:8080/api/usuarios/${id}`, {
+      const res = await fetch(`${API_URL}/api/usuarios/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

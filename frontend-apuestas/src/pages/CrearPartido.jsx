@@ -14,10 +14,11 @@ function CrearPartido() {
   const [editandoResultado, setEditandoResultado] = useState({});
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
+  const API_URL = import.meta.env.VITE_API_URL;
 
   const fetchEquipos = async () => {
     try {
-      const res = await fetch("http://localhost:8080/api/equipos/listar", {
+      const res = await fetch(`${API_URL}/api/equipos/listar`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -29,7 +30,7 @@ function CrearPartido() {
 
   const fetchPartidos = async () => {
     try {
-      const res = await fetch(`http://localhost:8080/api/partidos/competicion/${competicionId}`, {
+      const res = await fetch(`${API_URL}/api/partidos/competicion/${competicionId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -48,7 +49,7 @@ function CrearPartido() {
     e.preventDefault();
     try {
       const res = await fetch(
-        `http://localhost:8080/api/partidos/crear/${competicionId}/${equipoLocal}/${equipoVisitante}`,
+        `${API_URL}/api/partidos/crear/${competicionId}/${equipoLocal}/${equipoVisitante}`,
         {
           method: "POST",
           headers: {
@@ -72,7 +73,7 @@ function CrearPartido() {
   const handleEliminar = async (partidoId) => {
     if (!window.confirm("¿Eliminar este partido?")) return;
     try {
-      await fetch(`http://localhost:8080/api/partidos/eliminar/${partidoId}`, {
+      await fetch(`${API_URL}/api/partidos/eliminar/${partidoId}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -97,7 +98,7 @@ function CrearPartido() {
   const guardarResultado = async (partidoId) => {
     const { golesLocal, golesVisitante } = resultados[partidoId] || {};
     try {
-      const res = await fetch(`http://localhost:8080/api/partidos/resultado/${partidoId}`, {
+      const res = await fetch(`${API_URL}/api/partidos/resultado/${partidoId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

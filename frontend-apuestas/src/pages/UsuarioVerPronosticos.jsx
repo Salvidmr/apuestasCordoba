@@ -8,14 +8,14 @@ function UsuarioVerPronosticos() {
   const token = localStorage.getItem("token");
   const usuarioId = localStorage.getItem("id");
   const nombreUsuario = localStorage.getItem("nombreUsuario");
-
+  const API_URL = import.meta.env.VITE_API_URL;
   const [competicion, setCompeticion] = useState(null);
   const [partidos, setPartidos] = useState([]);
   const [partidoSeleccionado, setPartidoSeleccionado] = useState(null);
   const [apuestas, setApuestas] = useState([]);
 
   const fetchCompeticion = async () => {
-    const res = await fetch(`http://localhost:8080/api/competiciones/${competicionId}`, {
+    const res = await fetch(`${API_URL}/api/competiciones/${competicionId}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     if (res.ok) {
@@ -25,7 +25,7 @@ function UsuarioVerPronosticos() {
   };
 
   const fetchPartidos = async () => {
-    const res = await fetch(`http://localhost:8080/api/partidos/competicion/${competicionId}`, {
+    const res = await fetch(`${API_URL}/api/partidos/competicion/${competicionId}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     if (res.ok) {
@@ -35,7 +35,7 @@ function UsuarioVerPronosticos() {
   };
 
   const fetchApuestas = async (partidoId) => {
-    const res = await fetch(`http://localhost:8080/api/apuestas/partido/${partidoId}`, {
+    const res = await fetch(`${API_URL}/api/apuestas/partido/${partidoId}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     if (res.ok) {

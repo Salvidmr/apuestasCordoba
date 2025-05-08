@@ -6,6 +6,7 @@ function PerfilAdministrador() {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const id = localStorage.getItem("id");
+  const API_URL = import.meta.env.VITE_API_URL;
 
   const [usuario, setUsuario] = useState({
     nombreUsuario: "",
@@ -18,7 +19,7 @@ function PerfilAdministrador() {
 
   const obtenerDatos = async () => {
     try {
-      const res = await fetch(`http://localhost:8080/api/usuarios/${id}`, {
+      const res = await fetch(`${API_URL}/api/usuarios/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -32,7 +33,7 @@ function PerfilAdministrador() {
     e.preventDefault();
 
     try {
-      const res = await fetch(`http://localhost:8080/api/usuarios/${id}`, {
+      const res = await fetch(`${API_URL}/api/usuarios/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

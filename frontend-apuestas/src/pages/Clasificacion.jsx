@@ -13,11 +13,11 @@ function Clasificacion() {
   const [cargando, setCargando] = useState(true);
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
-
+  const API_URL = import.meta.env.VITE_API_URL;
   const fetchClasificacion = async () => {
     try {
       const resCompeticion = await fetch(
-        `http://localhost:8080/api/competiciones/${competicionId}`,
+        `${API_URL}/api/competiciones/${competicionId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -26,7 +26,7 @@ function Clasificacion() {
       setNombreCompeticion(dataCompeticion.nombre || "Competición");
 
       const resClasif = await fetch(
-        `http://localhost:8080/api/apuestas/clasificacion/${competicionId}`,
+        `${API_URL}/api/apuestas/clasificacion/${competicionId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -34,7 +34,7 @@ function Clasificacion() {
       const clasifData = await resClasif.json();
 
       const resParticipantes = await fetch(
-        `http://localhost:8080/api/competiciones/${competicionId}/participantes`,
+        `${API_URL}/api/competiciones/${competicionId}/participantes`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }

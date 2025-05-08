@@ -6,12 +6,12 @@ function UsuarioReglas() {
   const { id: competicionId } = useParams();
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
-
+  const API_URL = import.meta.env.VITE_API_URL;
   const [competicion, setCompeticion] = useState(null);
 
   useEffect(() => {
     const fetchCompeticion = async () => {
-      const res = await fetch(`http://localhost:8080/api/competiciones/${competicionId}`, {
+      const res = await fetch(`${API_URL}/api/competiciones/${competicionId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (res.ok) {

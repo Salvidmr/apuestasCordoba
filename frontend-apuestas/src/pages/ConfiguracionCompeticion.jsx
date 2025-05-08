@@ -7,13 +7,13 @@ function ConfiguracionCompeticion() {
   const { id: competicionId } = useParams();
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
-
+  const API_URL = import.meta.env.VITE_API_URL;
   const [puntosExacto, setPuntosExacto] = useState(3);
   const [puntosSimple, setPuntosSimple] = useState(1);
 
   const fetchConfiguracion = async () => {
     try {
-      const res = await fetch(`http://localhost:8080/api/competiciones/${competicionId}`, {
+      const res = await fetch(`${API_URL}/api/competiciones/${competicionId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (res.ok) {
@@ -34,7 +34,7 @@ function ConfiguracionCompeticion() {
 
     try {
       const res = await fetch(
-        `http://localhost:8080/api/competiciones/actualizar/${competicionId}`,
+        `${API_URL}/api/competiciones/actualizar/${competicionId}`,
         {
           method: "PUT",
           headers: {

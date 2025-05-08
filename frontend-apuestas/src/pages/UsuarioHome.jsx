@@ -8,9 +8,10 @@ function UsuarioHome() {
   const usuarioId = localStorage.getItem("id");
   const nombreUsuario = localStorage.getItem("nombreUsuario");
   const navigate = useNavigate();
+  const API_URL = import.meta.env.VITE_API_URL;
 
   const fetchMisCompeticiones = async () => {
-    const res = await fetch(`http://localhost:8080/api/competiciones/mis-competiciones/${usuarioId}`, {
+    const res = await fetch(`${API_URL}/api/competiciones/mis-competiciones/${usuarioId}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
 
