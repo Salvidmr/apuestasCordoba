@@ -74,8 +74,9 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
 
         config.setAllowedOrigins(Arrays.asList(
-                "http://localhost:5173",
-                "https://arcanfieldroad.onrender.com"));
+                "http://localhost:5173", // desarrollo local
+                "https://arcanfieldroad.vercel.app" // frontend desplegado en Vercel
+        ));
 
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(Arrays.asList("*"));
@@ -85,4 +86,5 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/**", config);
         return source;
     }
+
 }
