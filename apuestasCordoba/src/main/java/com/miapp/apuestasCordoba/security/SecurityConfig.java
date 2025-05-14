@@ -33,6 +33,7 @@ public class SecurityConfig {
 
                         // Rutas públicas
                         .requestMatchers("/api/usuarios/login", "/api/usuarios/registrar").permitAll()
+                        .requestMatchers(HttpMethod.PUT, "/api/usuarios/recuperar-password/**").permitAll()
 
                         // Rutas solo para ADMIN
                         .requestMatchers(HttpMethod.POST, "/api/competiciones/crear/**").hasAuthority("admin")

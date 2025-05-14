@@ -21,6 +21,7 @@ import UsuarioVerPronosticos from './pages/UsuarioVerPronosticos';
 import PerfilAdministrador from './pages/PerfilAdministrador';
 import PerfilUsuario from './pages/PerfilUsuario';
 import UsuarioReglas from './pages/UsuarioReglas';
+import RecuperarPassword from './pages/RecuperarPassword';
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem('token'));
@@ -49,6 +50,8 @@ function App() {
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/recuperar" element={<RecuperarPassword />} />
+
 
       <Route
         path="/admin"

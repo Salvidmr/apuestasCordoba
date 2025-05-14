@@ -71,28 +71,35 @@ public class UsuarioService {
         return usuarioRepository.findAll();
     }
 
-
     public Optional<Usuario> findById(Long id) {
         return usuarioRepository.findById(id);
     }
 
     public boolean actualizarUsuario(Long id, Usuario nuevosDatos) {
         Optional<Usuario> optionalUsuario = usuarioRepository.findById(id);
-        if (optionalUsuario.isEmpty()) return false;
-    
+        if (optionalUsuario.isEmpty())
+            return false;
+
         Usuario usuario = optionalUsuario.get();
         usuario.setNombreUsuario(nuevosDatos.getNombreUsuario());
         usuario.setNombreYapellidos(nuevosDatos.getNombreYapellidos());
         usuario.setEmail(nuevosDatos.getEmail());
-    
-        
+
         if (nuevosDatos.getPassword() != null && !nuevosDatos.getPassword().isBlank()) {
             String hashed = PasswordEncoderUtil.encode(nuevosDatos.getPassword());
             usuario.setPassword(hashed);
         }
-    
+
         usuarioRepository.save(usuario);
         return true;
     }
-    
+
+    public Optional<Usuario> findByNombreUsuario(String nombreUsuario) {
+        return usuarioRepository.findByNombreUsuario(nombreUsuario);
+    }
+
+    public void guardar(Usuario usuario) {
+        usuarioRepository.save(usuario);
+    }
+
 }

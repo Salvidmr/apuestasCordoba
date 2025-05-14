@@ -82,11 +82,10 @@ function Login() {
           <button
             type="submit"
             disabled={loading}
-            className={`w-full py-2 rounded font-semibold transition-colors ${
-              loading
+            className={`w-full py-2 rounded font-semibold transition-colors ${loading
                 ? "bg-gray-400 text-white cursor-not-allowed"
                 : "bg-green-600 hover:bg-green-700 text-white"
-            }`}
+              }`}
           >
             {loading ? "Iniciando sesión..." : "Entrar"}
           </button>
@@ -104,6 +103,14 @@ function Login() {
             Regístrate aquí
           </Link>
         </p>
+
+        <p className="mt-2 text-sm text-center">
+          ¿Olvidaste tu contraseña?{" "}
+          <Link to="/recuperar" className="text-green-700 font-semibold hover:underline">
+            Recupérala aquí
+          </Link>
+        </p>
+
       </div>
     </div>
   );
