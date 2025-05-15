@@ -65,7 +65,8 @@ function UsuarioPronosticos() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}` },
+          Authorization: `Bearer ${token}`
+        },
         body: JSON.stringify({
           golesLocal: parseInt(apuesta.golesLocal),
           golesVisitante: parseInt(apuesta.golesVisitante),
@@ -81,7 +82,7 @@ function UsuarioPronosticos() {
           editando: false,
         },
       }));
-      fetchPronosticos(); 
+      fetchPronosticos();
     }
   };
 
@@ -160,18 +161,17 @@ function UsuarioPronosticos() {
               return (
                 <div
                   key={p.id}
-                  className={`bg-white p-4 rounded shadow flex flex-wrap items-center justify-between gap-3 ${
-                    yaEmpezo ? "opacity-70" : ""
-                  }`}
+                  className={`bg-white p-4 rounded shadow grid grid-cols-3 items-center gap-2 sm:gap-4 ${yaEmpezo ? "opacity-70" : ""
+                    }`}
                 >
-                  {/* Local */}
-                  <div className="flex items-center gap-2 w-full sm:w-1/4">
-                    <img src={p.equipoLocal.escudoUrl} alt="local" className="h-8 w-8" />
-                    <span className="font-medium">{p.equipoLocal.nombre}</span>
+                  {/* Equipo Local */}
+                  <div className="flex flex-col items-center">
+                    <img src={p.equipoLocal.escudoUrl} alt="local" className="h-10 w-10" />
+                    <span className="text-sm font-medium text-center">{p.equipoLocal.nombre}</span>
                   </div>
 
                   {/* Pronóstico */}
-                  <div className="flex-grow sm:w-1/3 text-center">
+                  <div className="text-center">
                     {yaEmpezo ? (
                       <div className="text-sm text-gray-700">
                         <div className="font-semibold mb-1">Pronóstico:</div>
@@ -217,10 +217,10 @@ function UsuarioPronosticos() {
                     )}
                   </div>
 
-                  {/* Visitante */}
-                  <div className="flex items-center gap-2 w-full sm:w-1/4 justify-end">
-                    <span className="font-medium">{p.equipoVisitante.nombre}</span>
-                    <img src={p.equipoVisitante.escudoUrl} alt="visitante" className="h-8 w-8" />
+                  {/* Equipo Visitante */}
+                  <div className="flex flex-col items-center">
+                    <img src={p.equipoVisitante.escudoUrl} alt="visitante" className="h-10 w-10" />
+                    <span className="text-sm font-medium text-center">{p.equipoVisitante.nombre}</span>
                   </div>
                 </div>
               );
