@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
-import { Trash2, LogOut } from "lucide-react";
+import { Trash2, LogOut, Users } from "lucide-react";
 
 function AdminHome() {
   const [competiciones, setCompeticiones] = useState([]);
@@ -78,12 +78,12 @@ function AdminHome() {
           <h1 className="text-2xl font-bold text-green-700 whitespace-nowrap">Arcanfield Road</h1>
         </div>
         <div className="flex items-center gap-4 flex-wrap justify-center">
-        <span
-          className="text-sm text-green-700 font-semibold cursor-pointer underline hover:text-green-800 whitespace-nowrap"
-          onClick={() => navigate("/admin/perfil")}
-        >
-          Admin: {nombreAdmin}
-        </span>
+          <span
+            className="text-sm text-green-700 font-semibold cursor-pointer underline hover:text-green-800 whitespace-nowrap"
+            onClick={() => navigate("/admin/perfil")}
+          >
+            Admin: {nombreAdmin}
+          </span>
           <button
             onClick={handleLogout}
             className="text-red-600 hover:text-red-800 flex items-center gap-1"
@@ -97,12 +97,22 @@ function AdminHome() {
 
       {/* Contenido */}
       <main className="p-4 sm:p-6 max-w-4xl mx-auto">
-        <button
-          className="bg-green-600 hover:bg-green-700 text-white w-full sm:w-auto px-4 py-2 rounded-lg mb-6 font-semibold transition-colors"
-          onClick={() => navigate("/crear-competicion")}
-        >
-          + Crear competición
-        </button>
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
+          <button
+            className="bg-green-600 hover:bg-green-700 text-white w-full sm:w-auto px-4 py-2 rounded-lg font-semibold transition-colors"
+            onClick={() => navigate("/crear-competicion")}
+          >
+            + Crear competición
+          </button>
+
+          <button
+            className="bg-green-600 hover:bg-green-700 text-white w-full sm:w-auto px-4 py-2 rounded-lg font-semibold transition-colors flex items-center gap-2 justify-center"
+            onClick={() => navigate("/usuarios-registrados")}
+          >
+            <Users size={18} />
+            Ver usuarios registrados
+          </button>
+        </div>
 
         <h2 className="text-xl font-bold mb-4 text-gray-800">Competiciones creadas</h2>
 
