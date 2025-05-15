@@ -34,6 +34,7 @@ public class SecurityConfig {
                         // Rutas públicas
                         .requestMatchers("/api/usuarios/login", "/api/usuarios/registrar").permitAll()
                         .requestMatchers(HttpMethod.PUT, "/api/usuarios/recuperar-password/**").permitAll()
+                        .requestMatchers("/api/test/**").permitAll()
 
                         // Rutas solo para ADMIN
                         .requestMatchers(HttpMethod.POST, "/api/competiciones/crear/**").hasAuthority("admin")
@@ -56,6 +57,9 @@ public class SecurityConfig {
                         .requestMatchers("/api/anuncios/**").authenticated()
                         .requestMatchers("/api/anuncios/competicion/**").authenticated()
                         .requestMatchers("/api/equipos/listar").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/api/usuarios/enviar-pin/**").authenticated()
+
+                        
 
                         // Todo lo demás necesita autenticación
                         .anyRequest().authenticated())

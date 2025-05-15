@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
-import { Copy } from "lucide-react";
+import { Send } from "lucide-react";
 
 function PerfilAdministrador() {
   const navigate = useNavigate();
@@ -118,22 +118,30 @@ function PerfilAdministrador() {
             />
             <button
               type="button"
-              onClick={() => {
-                navigator.clipboard.writeText(usuario.pin);
-                setCopiado(true);
-                setTimeout(() => setCopiado(false), 2000);
+              onClick={async () => {
+                try {
+                  const res = await fetch(`${API_URL}/api/usuarios/enviar-pin/${id}`, {
+                    method: "POST",
+                    headers: {
+                      Authorization: `Bearer ${token}`,
+                    },
+                  });
+
+                  if (res.ok) {
+                    setMensaje("PIN enviado al correo correctamente.");
+                  } else {
+                    setMensaje("No se pudo enviar el PIN.");
+                  }
+                } catch (err) {
+                  console.error("Error al enviar PIN:", err);
+                  setMensaje("Error de red al intentar enviar el PIN.");
+                }
               }}
               className="absolute right-2 top-1/2 -translate-y-1/2 text-green-600 hover:text-green-800"
-              title="Copiar PIN"
+              title="Enviar PIN al correo"
             >
-              <Copy size={18} />
+              <Send size={18} />
             </button>
-
-            {copiado && (
-              <span className="absolute right-2 top-full mt-1 text-xs text-green-600 bg-green-100 px-2 py-1 rounded shadow">
-                ¡Copiado!
-              </span>
-            )}
           </div>
           <input
             type="password"

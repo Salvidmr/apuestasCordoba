@@ -19,6 +19,7 @@ import com.miapp.apuestasCordoba.model.Competicion;
 import com.miapp.apuestasCordoba.model.Usuario;
 import com.miapp.apuestasCordoba.repository.CompeticionRepository;
 import com.miapp.apuestasCordoba.security.PasswordEncoderUtil;
+import com.miapp.apuestasCordoba.service.EmailService;
 import com.miapp.apuestasCordoba.service.UsuarioService;
 
 @RestController
@@ -27,6 +28,9 @@ public class UsuarioController {
 
 	@Autowired
 	private UsuarioService usuarioService;
+
+	@Autowired
+	private EmailService emailService;
 
 	@Autowired
 	private CompeticionRepository competicionRepository;
@@ -103,6 +107,21 @@ public class UsuarioController {
 		usuarioService.guardar(usuario);
 
 		return ResponseEntity.ok("Contraseña actualizada correctamente.");
+	}
+
+	@PostMapping("/enviar-pin/{id}")
+	public ResponseEntity<String> enviarPin(@PathVariable Long id) {
+		Optional<Usuario> usuarioOpt = usuarioService.findById(id);
+
+		if (usuarioOpt.isEmpty()) {
+			return ResponseEntity.status(404).body("Usuario no encontrado.");
+		}
+
+		Usuario usuario = usuarioOpt.get();
+
+		emailService.enviarPin(usuario.getEmail(), usuario.getNombreUsuario(), usuario.getPin());
+
+		return ResponseEntity.ok("PIN enviado al correo.");
 	}
 
 	// // Clasificación por competición

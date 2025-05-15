@@ -3,6 +3,7 @@ package com.miapp.apuestasCordoba.service;
 import com.miapp.apuestasCordoba.model.Competicion;
 import com.miapp.apuestasCordoba.model.Equipo;
 import com.miapp.apuestasCordoba.model.Partido;
+import com.miapp.apuestasCordoba.model.Usuario;
 import com.miapp.apuestasCordoba.repository.CompeticionRepository;
 import com.miapp.apuestasCordoba.repository.EquipoRepository;
 import com.miapp.apuestasCordoba.repository.PartidoRepository;
@@ -19,6 +20,9 @@ public class PartidoService {
     private PartidoRepository partidoRepository;
 
     @Autowired
+    private EmailService emailService;
+
+    @Autowired
     private CompeticionRepository competicionRepository;
 
     @Autowired
@@ -33,11 +37,26 @@ public class PartidoService {
             return "Datos incorrectos: competición o equipos no encontrados.";
         }
 
-        partido.setCompeticion(compOpt.get());
-        partido.setEquipoLocal(localOpt.get());
-        partido.setEquipoVisitante(visitOpt.get());
+        Competicion competicion = compOpt.get();
+        Equipo equipoLocal = localOpt.get();
+        Equipo equipoVisitante = visitOpt.get();
+
+        partido.setCompeticion(competicion);
+        partido.setEquipoLocal(equipoLocal);
+        partido.setEquipoVisitante(equipoVisitante);
 
         partidoRepository.save(partido);
+
+        List<Usuario> participantes = competicion.getParticipantes();
+        for (Usuario u : participantes) {
+            emailService.enviarAvisoDePartido(
+                    u.getEmail(),
+                    u.getNombreUsuario(),
+                    competicion.getNombre(),
+                    equipoLocal.getNombre(),
+                    equipoVisitante.getNombre());
+        }
+
         return "Partido creado correctamente.";
     }
 

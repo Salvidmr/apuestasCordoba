@@ -96,6 +96,7 @@ function Login() {
             <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-green-600 border-opacity-50"></div>
           </div>
         )}
+      
 
         <p className="mt-4 text-sm text-center">
           ¿No tienes cuenta?{" "}

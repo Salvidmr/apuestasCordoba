@@ -21,6 +21,9 @@ public class UsuarioService {
     private UsuarioRepository usuarioRepository;
 
     @Autowired
+    private EmailService emailService;
+
+    @Autowired
     private JwtUtil jwtUtil;
 
     public String registrarUsuario(Usuario usuario) {
@@ -45,6 +48,7 @@ public class UsuarioService {
 
         usuario.setPin(pinGenerado);
         usuarioRepository.save(usuario);
+        emailService.enviarPin(usuario.getEmail(), usuario.getNombreUsuario(), usuario.getPin());
 
         System.out.println("PIN generado para " + usuario.getNombreUsuario() + ": " + pinGenerado);
 
