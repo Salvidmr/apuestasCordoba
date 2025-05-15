@@ -83,15 +83,24 @@ public class UsuarioController {
 			return ResponseEntity.status(404).body("Usuario no encontrado.");
 		}
 
+		Usuario usuario = usuarioOpt.get();
+
+		String email = body.get("email");
+		String pin = body.get("pin");
 		String nuevaPassword = body.get("password");
 
-		if (nuevaPassword == null || nuevaPassword.isBlank()) {
-			return ResponseEntity.badRequest().body("La contraseña no puede estar vacía.");
+		if (email == null || pin == null || nuevaPassword == null ||
+				email.isBlank() || pin.isBlank() || nuevaPassword.isBlank()) {
+			return ResponseEntity.badRequest().body("Faltan datos requeridos.");
 		}
 
-		Usuario usuario = usuarioOpt.get();
+		// Verificar que email y pin coincidan
+		if (!usuario.getEmail().equalsIgnoreCase(email) || !usuario.getPin().equals(pin)) {
+			return ResponseEntity.status(403).body("Datos de verificación incorrectos.");
+		}
+
 		usuario.setPassword(PasswordEncoderUtil.encode(nuevaPassword));
-		usuarioService.guardar(usuario); // crea un método `guardar()` si aún no existe
+		usuarioService.guardar(usuario);
 
 		return ResponseEntity.ok("Contraseña actualizada correctamente.");
 	}

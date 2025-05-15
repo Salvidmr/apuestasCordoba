@@ -29,14 +29,26 @@ public class UsuarioService {
             return "El email o nombre de usuario ya está registrado.";
         }
 
-        // Forzar que el rol sea siempre "user"
         usuario.setRol("user");
-
         String passCifrada = PasswordEncoderUtil.encode(usuario.getPassword());
         usuario.setPassword(passCifrada);
+
+        List<Usuario> usuarios = usuarioRepository.findAll();
+        List<String> pinesExistentes = usuarios.stream()
+                .map(Usuario::getPin)
+                .toList();
+
+        String pinGenerado;
+        do {
+            pinGenerado = String.format("%06d", new java.util.Random().nextInt(999999));
+        } while (pinesExistentes.contains(pinGenerado));
+
+        usuario.setPin(pinGenerado);
         usuarioRepository.save(usuario);
 
-        return "Usuario registrado correctamente.";
+        System.out.println("PIN generado para " + usuario.getNombreUsuario() + ": " + pinGenerado);
+
+        return "Usuario registrado correctamente. Guarda tu PIN: " + pinGenerado;
     }
 
     public Map<String, Object> loginUsuario(LoginRequest loginRequest) {

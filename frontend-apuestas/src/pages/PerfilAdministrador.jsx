@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
+import { Copy } from "lucide-react";
 
 function PerfilAdministrador() {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const id = localStorage.getItem("id");
+  const [copiado, setCopiado] = useState(false);
   const API_URL = import.meta.env.VITE_API_URL;
 
   const [usuario, setUsuario] = useState({
@@ -108,6 +110,31 @@ function PerfilAdministrador() {
             onChange={(e) => setUsuario({ ...usuario, email: e.target.value })}
             required
           />
+          <div className="relative">
+            <input
+              value={`PIN: ${usuario.pin}`}
+              className="w-full p-2 border rounded bg-gray-100 text-gray-600 pr-10"
+              readOnly
+            />
+            <button
+              type="button"
+              onClick={() => {
+                navigator.clipboard.writeText(usuario.pin);
+                setCopiado(true);
+                setTimeout(() => setCopiado(false), 2000);
+              }}
+              className="absolute right-2 top-1/2 -translate-y-1/2 text-green-600 hover:text-green-800"
+              title="Copiar PIN"
+            >
+              <Copy size={18} />
+            </button>
+
+            {copiado && (
+              <span className="absolute right-2 top-full mt-1 text-xs text-green-600 bg-green-100 px-2 py-1 rounded shadow">
+                ¡Copiado!
+              </span>
+            )}
+          </div>
           <input
             type="password"
             placeholder="Nueva contraseña (dejar en blanco si no se cambia)"

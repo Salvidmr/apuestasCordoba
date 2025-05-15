@@ -33,12 +33,14 @@ public class Usuario {
 	@Column(nullable = false)
 	private String nombreYapellidos;
 
+	@Column(unique = true)
+	private String pin;
 
 	@Column(nullable = false)
 	private String rol; // "admin" o "user"
 
-//	@Column(nullable = false)
-//	private Integer puntos = 0;
+	// @Column(nullable = false)
+	// private Integer puntos = 0;
 
 	private LocalDateTime fechaRegistro = LocalDateTime.now();
 
@@ -54,7 +56,7 @@ public class Usuario {
 		this.email = email;
 		this.password = password;
 		this.rol = rol;
-//		this.puntos = 0;
+		// this.puntos = 0;
 		this.fechaRegistro = LocalDateTime.now();
 	}
 
@@ -95,14 +97,14 @@ public class Usuario {
 	public void setRol(String rol) {
 		this.rol = rol;
 	}
-//
-//	public Integer getPuntos() {
-//		return puntos;
-//	}
-//
-//	public void setPuntos(Integer puntos) {
-//		this.puntos = puntos;
-//	}
+	//
+	// public Integer getPuntos() {
+	// return puntos;
+	// }
+	//
+	// public void setPuntos(Integer puntos) {
+	// this.puntos = puntos;
+	// }
 
 	public LocalDateTime getFechaRegistro() {
 		return fechaRegistro;
@@ -123,9 +125,17 @@ public class Usuario {
 	public String getNombreYapellidos() {
 		return nombreYapellidos;
 	}
-	
+
 	public void setNombreYapellidos(String nombreYapellidos) {
 		this.nombreYapellidos = nombreYapellidos;
 	}
-	
+
+	public String getPin() {
+		return pin;
+	}
+
+	public void setPin(String pin) {
+		this.pin = pin;
+	}
+
 }
