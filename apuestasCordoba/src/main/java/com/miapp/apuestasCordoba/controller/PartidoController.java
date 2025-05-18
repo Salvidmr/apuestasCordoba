@@ -2,6 +2,7 @@ package com.miapp.apuestasCordoba.controller;
 
 import com.miapp.apuestasCordoba.model.Partido;
 import com.miapp.apuestasCordoba.service.ApuestaService;
+import com.miapp.apuestasCordoba.service.EmailService;
 import com.miapp.apuestasCordoba.service.PartidoService;
 import com.miapp.apuestasCordoba.repository.PartidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +21,13 @@ public class PartidoController {
     private PartidoService partidoService;
 
     @Autowired
+    private EmailService emailService;
+
+    @Autowired
     private PartidoRepository partidoRepository;
 
     @Autowired
-    private ApuestaService apuestaService; 
+    private ApuestaService apuestaService;
 
     // Crear partido con equipos reales
     @PostMapping("/crear/{competicionId}/{localId}/{visitanteId}")
@@ -89,6 +93,8 @@ public class PartidoController {
 
         // Se calculan los partidos solos
         String resultado = apuestaService.calcularPuntos(partidoId);
+
+        emailService.enviarAvisoClasificacionActualizada(partido);
 
         return ResponseEntity.ok("Resultado asignado y " + resultado.toLowerCase());
     }

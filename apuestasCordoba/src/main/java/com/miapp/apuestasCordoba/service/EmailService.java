@@ -5,6 +5,10 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import com.miapp.apuestasCordoba.model.Competicion;
+import com.miapp.apuestasCordoba.model.Partido;
+import com.miapp.apuestasCordoba.model.Usuario;
+
 @Service
 public class EmailService {
 
@@ -38,6 +42,27 @@ public class EmailService {
         mensaje.setText(cuerpo);
 
         mailSender.send(mensaje);
+    }
+
+    public void enviarAvisoClasificacionActualizada(Partido partido) {
+        Competicion competicion = partido.getCompeticion();
+        String asunto = "Clasificación actualizada - Arcanfield Road";
+        String cuerpo = "Se ha actualizado la clasificación tras el partido " +
+                partido.getEquipoLocal().getNombre() + " " + partido.getGolesLocal() +
+                " - " + partido.getGolesVisitante() + " " +
+                partido.getEquipoVisitante().getNombre() + ".\n\n" +
+                "Consulta la clasificación en la aplicación.";
+
+        for (Usuario participante : competicion.getParticipantes()) {
+            if (participante.getEmail() != null) {
+                SimpleMailMessage mensaje = new SimpleMailMessage();
+                mensaje.setTo(participante.getEmail());
+                mensaje.setSubject(asunto);
+                mensaje.setText(
+                        "Hola " + participante.getNombreUsuario() + ",\n\n" + cuerpo + "\n\n- Arcanfield Road ⚽");
+                mailSender.send(mensaje);
+            }
+        }
     }
 
 }
