@@ -7,9 +7,10 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import org.springframework.transaction.annotation.Transactional;
 import com.miapp.apuestasCordoba.controller.LoginRequest;
 import com.miapp.apuestasCordoba.model.Usuario;
+import com.miapp.apuestasCordoba.repository.ApuestaRepository;
 import com.miapp.apuestasCordoba.repository.UsuarioRepository;
 import com.miapp.apuestasCordoba.security.JwtUtil;
 import com.miapp.apuestasCordoba.security.PasswordEncoderUtil;
@@ -19,6 +20,9 @@ public class UsuarioService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private ApuestaRepository apuestaRepository;
 
     @Autowired
     private EmailService emailService;
@@ -116,6 +120,29 @@ public class UsuarioService {
 
     public void guardar(Usuario usuario) {
         usuarioRepository.save(usuario);
+    }
+
+    @Transactional
+    public boolean eliminarUsuarioPorId(Long id) {
+        Optional<Usuario> usuarioOpt = usuarioRepository.findById(id);
+        if (usuarioOpt.isEmpty())
+            return false;
+
+        Usuario usuario = usuarioOpt.get();
+
+        // Eliminar apuestas del usuario
+        apuestaRepository.deleteByUsuarioId(id);
+
+        // Eliminar relaciones ManyToMany con competiciones
+        usuario.getCompeticiones().forEach(c -> c.getParticipantes().remove(usuario));
+        usuario.getCompeticiones().clear();
+
+        // Guardar los cambios antes de eliminar
+        usuarioRepository.save(usuario);
+
+        // Finalmente, eliminar el usuario
+        usuarioRepository.delete(usuario);
+        return true;
     }
 
 }
