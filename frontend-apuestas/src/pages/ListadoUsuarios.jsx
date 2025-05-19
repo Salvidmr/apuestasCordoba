@@ -66,6 +66,7 @@ function ListadoUsuarios() {
                 <th className="px-4 py-3">Nombre de usuario</th>
                 <th className="px-4 py-3">Nombre y apellidos</th>
                 <th className="px-4 py-3">Email</th>
+                <th className="px-4 py-3">PIN</th>
               </tr>
             </thead>
             <tbody>
@@ -81,6 +82,7 @@ function ListadoUsuarios() {
                     <td className="px-4 py-2">{usuario.nombreUsuario}</td>
                     <td className="px-4 py-2">{usuario.nombreYapellidos}</td>
                     <td className="px-4 py-2">{usuario.email}</td>
+                    <td className="px-4 py-2">{usuario.pin}</td>
                   </tr>
                 ))
               )}
