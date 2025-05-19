@@ -15,6 +15,11 @@ function Register() {
   const handleRegister = async (e) => {
     e.preventDefault();
 
+    if (/\s/.test(nombreUsuario)) {
+    setMensaje("El nombre de usuario no puede contener espacios.");
+    return;
+  }
+
     if (password !== confirmarPassword) {
       setMensaje("Las contraseñas no coinciden.");
       return;
