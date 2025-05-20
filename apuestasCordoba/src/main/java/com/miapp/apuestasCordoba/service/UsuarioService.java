@@ -130,17 +130,13 @@ public class UsuarioService {
 
         Usuario usuario = usuarioOpt.get();
 
-        // Eliminar apuestas del usuario
         apuestaRepository.deleteByUsuarioId(id);
 
-        // Eliminar relaciones ManyToMany con competiciones
         usuario.getCompeticiones().forEach(c -> c.getParticipantes().remove(usuario));
         usuario.getCompeticiones().clear();
 
-        // Guardar los cambios antes de eliminar
         usuarioRepository.save(usuario);
 
-        // Finalmente, eliminar el usuario
         usuarioRepository.delete(usuario);
         return true;
     }

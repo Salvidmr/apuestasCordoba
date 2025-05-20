@@ -25,7 +25,7 @@ function PerfilAdministrador() {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
-      setUsuario({ ...data, password: "" }); // no mostrar password real
+      setUsuario({ ...data, password: "" }); 
     } catch (err) {
       console.error("Error al obtener datos del perfil", err);
     }

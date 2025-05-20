@@ -17,7 +17,7 @@ public class Apuesta {
     private int golesLocal;
     private int golesVisitante;
 
-    private int puntos = 0; // Nuevo campo para almacenar puntos por apuesta
+    private int puntos = 0; 
 
     private LocalDateTime fechaApuesta = LocalDateTime.now();
 
@@ -31,8 +31,6 @@ public class Apuesta {
     private Partido partido;
 
     public Apuesta() {}
-
-    // Getters y Setters
 
     public Long getId() {
         return id;

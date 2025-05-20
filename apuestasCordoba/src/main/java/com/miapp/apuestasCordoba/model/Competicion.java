@@ -19,14 +19,11 @@ public class Competicion {
 
 	private LocalDateTime fechaCreacion = LocalDateTime.now();
 
-	// Fecha límite de la competición (la define el admin)
 	private LocalDateTime fechaFin;
 
-	// Configuración de puntos (ya no llevan valor por defecto aquí)
 	private int puntosPorResultadoExacto;
 	private int puntosPorAciertoSimple;
 
-	// Usuario que crea la competición
 	@ManyToOne
 	@JoinColumn(name = "admin_id", nullable = false)
 	private Usuario administrador;
@@ -40,12 +37,9 @@ public class Competicion {
 	private List<Usuario> participantes = new ArrayList<>();
 
 	public Competicion() {
-		// Valores por defecto definidos solo al crear un nuevo objeto
 		this.puntosPorResultadoExacto = 3;
 		this.puntosPorAciertoSimple = 1;
 	}
-
-	// Getters y Setters
 
 	public Long getId() {
 		return id;
@@ -115,7 +109,6 @@ public class Competicion {
 		this.participantes = participantes;
 	}
 
-	// Método que ayuda a saber cuando la competición ha acabado
 	public boolean estaFinalizada() {
 		return fechaFin != null && LocalDateTime.now().isAfter(fechaFin);
 	}

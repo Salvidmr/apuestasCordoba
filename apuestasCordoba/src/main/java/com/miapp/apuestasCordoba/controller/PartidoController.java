@@ -8,11 +8,10 @@ import com.miapp.apuestasCordoba.repository.PartidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+// Controlador que gestiona los partidos
 @RestController
 @RequestMapping("/api/partidos")
 public class PartidoController {
@@ -29,7 +28,7 @@ public class PartidoController {
     @Autowired
     private ApuestaService apuestaService;
 
-    // Crear partido con equipos reales
+    // Endpoint que permite crear un partido
     @PostMapping("/crear/{competicionId}/{localId}/{visitanteId}")
     public ResponseEntity<String> crearPartido(
             @RequestBody Partido partido,
@@ -46,20 +45,20 @@ public class PartidoController {
         return ResponseEntity.ok(resultado);
     }
 
-    // Listar partidos de una competición
+    // Endpoint para listar partidos de una competición
     @GetMapping("/competicion/{competicionId}")
     public ResponseEntity<List<Partido>> listarPartidos(@PathVariable Long competicionId) {
         return ResponseEntity.ok(partidoService.listarPorCompeticion(competicionId));
     }
 
-    // Eliminar partido
+    // Endpoint para eliminar un partido
     @DeleteMapping("/eliminar/{partidoId}")
     public ResponseEntity<String> eliminarPartido(@PathVariable Long partidoId) {
         partidoRepository.deleteById(partidoId);
         return ResponseEntity.ok("Partido eliminado correctamente.");
     }
 
-    // Editar fecha del partido
+    // Endpoint para editar fecha del partido
     @PutMapping("/editar-fecha/{partidoId}")
     public ResponseEntity<String> editarFechaPartido(@PathVariable Long partidoId, @RequestBody Partido datos) {
         Optional<Partido> partidoOpt = partidoRepository.findById(partidoId);
@@ -74,7 +73,8 @@ public class PartidoController {
         return ResponseEntity.ok("Fecha del partido actualizada correctamente.");
     }
 
-    // Asignar resultado real Y calcular puntos automáticamente
+    // Endpoint para una vez acabado el partido, el admin pueda poner el resultado real y se calculen
+    // los puntos automáticamente
     @PutMapping("/resultado/{partidoId}")
     public ResponseEntity<String> asignarResultado(
             @PathVariable Long partidoId,
@@ -91,7 +91,6 @@ public class PartidoController {
         partido.setGolesVisitante(datosResultado.getGolesVisitante());
         partidoRepository.save(partido);
 
-        // Se calculan los partidos solos
         String resultado = apuestaService.calcularPuntos(partidoId);
 
         emailService.enviarAvisoClasificacionActualizada(partido);

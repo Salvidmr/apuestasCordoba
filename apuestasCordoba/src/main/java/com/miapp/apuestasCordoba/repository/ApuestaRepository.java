@@ -18,7 +18,6 @@ public interface ApuestaRepository extends JpaRepository<Apuesta, Long> {
 
     List<Apuesta> findByUsuarioIdAndPartidoCompeticionId(Long usuarioId, Long competicionId);
 
-    // ✅ NUEVO: obtener todas las apuestas de una competición
     List<Apuesta> findByPartido_Competicion_Id(Long competicionId);
 
     void deleteByUsuarioId(Long usuarioId);

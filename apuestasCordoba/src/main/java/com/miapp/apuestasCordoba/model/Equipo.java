@@ -12,7 +12,7 @@ public class Equipo {
 
 	private String nombre;
 
-	private String escudoUrl; // URL de la imagen del escudo
+	private String escudoUrl; 
 
 	public Equipo() {
 	}

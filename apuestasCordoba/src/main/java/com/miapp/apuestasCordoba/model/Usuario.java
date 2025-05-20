@@ -37,10 +37,7 @@ public class Usuario {
 	private String pin;
 
 	@Column(nullable = false)
-	private String rol; // "admin" o "user"
-
-	// @Column(nullable = false)
-	// private Integer puntos = 0;
+	private String rol; 
 
 	private LocalDateTime fechaRegistro = LocalDateTime.now();
 
@@ -56,11 +53,8 @@ public class Usuario {
 		this.email = email;
 		this.password = password;
 		this.rol = rol;
-		// this.puntos = 0;
 		this.fechaRegistro = LocalDateTime.now();
 	}
-
-	// Getters y Setters
 
 	public Long getId() {
 		return id;
@@ -97,14 +91,6 @@ public class Usuario {
 	public void setRol(String rol) {
 		this.rol = rol;
 	}
-	//
-	// public Integer getPuntos() {
-	// return puntos;
-	// }
-	//
-	// public void setPuntos(Integer puntos) {
-	// this.puntos = puntos;
-	// }
 
 	public LocalDateTime getFechaRegistro() {
 		return fechaRegistro;

@@ -4,7 +4,7 @@ import logo from "../assets/logo.png";
 
 function Register() {
   const [nombreUsuario, setNombreUsuario] = useState("");
-  const [nombreYapellidos, setNombreYapellidos] = useState(""); // Nuevo campo
+  const [nombreYapellidos, setNombreYapellidos] = useState(""); 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmarPassword, setConfirmarPassword] = useState("");

@@ -1,15 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import logo from "../assets/logo.png";
-import {
-  CalendarPlus,
-  Users,
-  Eye,
-  Trophy,
-  Megaphone,
-  Settings,
-  ArrowLeft,
-} from "lucide-react";
+import {  CalendarPlus, Users, Eye, Trophy, Megaphone, Settings, ArrowLeft } from "lucide-react";
 
 function GestionCompeticion() {
   const { id } = useParams();

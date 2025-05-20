@@ -119,8 +119,6 @@ public class ApuestaService {
             } else if (acertadoGanador) {
                 puntos = puntosAciertoSimple;
             }
-
-            // No se suma aquí, porque ahora los puntos no se guardan en Usuario
         }
 
         return "Puntos calculados correctamente.";

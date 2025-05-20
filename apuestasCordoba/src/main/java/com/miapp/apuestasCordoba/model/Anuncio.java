@@ -26,7 +26,6 @@ public class Anuncio {
 
     public Anuncio() {}
 
-    // Getters y setters
 
     public Long getId() {
         return id;

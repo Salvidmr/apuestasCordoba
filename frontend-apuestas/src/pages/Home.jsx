@@ -4,8 +4,8 @@ function Home() {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem("token"); // Elimina el token
-    navigate("/login"); // Redirige al login
+    localStorage.removeItem("token"); 
+    navigate("/login"); 
   };
 
   return (

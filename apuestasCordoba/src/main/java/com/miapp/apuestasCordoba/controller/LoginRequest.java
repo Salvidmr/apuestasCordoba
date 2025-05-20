@@ -1,5 +1,12 @@
 package com.miapp.apuestasCordoba.controller;
 
+/**
+ * Esta clase representa el cuerpo de una petición de login.
+ * Se utiliza para asociar automáticamente los datos que el usuario envía
+ * al iniciar sesión (nombre de usuario y contraseña).
+ *
+ * Fue creada para facilitar la autenticación desde el frontend.
+ */
 public class LoginRequest {
     private String nombreUsuario;
     private String password;

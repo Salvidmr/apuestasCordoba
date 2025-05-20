@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
-import { toast } from "react-toastify"; // ✅ importar el toast
+import { toast } from "react-toastify";
 
 function CrearCompeticion() {
   const [nombre, setNombre] = useState("");

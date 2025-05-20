@@ -19,20 +19,17 @@ public class Partido {
 	@JoinColumn(name = "equipo_visitante_id", nullable = false)
 	private Equipo equipoVisitante;
 
-	private LocalDateTime fechaHora; // Fecha y hora del partido (límite para apostar)
+	private LocalDateTime fechaHora; 
 
-	private Integer golesLocal; // Resultado real
+	private Integer golesLocal; 
 	private Integer golesVisitante;
 
-	// Relación con competición
 	@ManyToOne
 	@JoinColumn(name = "competicion_id", nullable = false)
 	private Competicion competicion;
 
 	public Partido() {
 	}
-
-	// Getters y Setters
 
 	public Long getId() {
 		return id;
@@ -86,7 +83,6 @@ public class Partido {
 		this.competicion = competicion;
 	}
 
-	// Método para saber si el partido ya está cerrado
 	public boolean estaCerrado() {
 		return fechaHora.isBefore(LocalDateTime.now());
 	}

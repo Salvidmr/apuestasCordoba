@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+// Controlador que permite gestionar los equipos
 @RestController
 @RequestMapping("/api/equipos")
 public class EquipoController {
@@ -20,16 +21,19 @@ public class EquipoController {
 	@Autowired
 	private EquipoRepository equipoRepository;
 
+	// Endpoint que permite crear un equipo
 	@PostMapping("/crear")
 	public ResponseEntity<String> crearEquipo(@RequestBody Equipo equipo) {
 		return ResponseEntity.ok(equipoService.crearEquipo(equipo));
 	}
 
+	// Endpoint que permite listar todos los equipos 
 	@GetMapping("/listar")
 	public ResponseEntity<List<Equipo>> listarEquipos() {
 		return ResponseEntity.ok(equipoService.listarEquipos());
 	}
 
+	// Endpoint para editar un equipo
 	@PutMapping("/editar/{id}")
 	public ResponseEntity<String> editarEquipo(@PathVariable Long id, @RequestBody Equipo equipo) {
 		Optional<Equipo> equipoOpt = equipoRepository.findById(id);

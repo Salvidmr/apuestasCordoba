@@ -38,7 +38,7 @@ function App() {
     // Escucha cambios directos en el storage (desde otras pestañas)
     window.addEventListener('storage', actualizarEstadoDesdeLocalStorage);
 
-    // Escucha cambios locales también (por ejemplo, tras login)
+    // Escucha cambios locales 
     const intervalo = setInterval(actualizarEstadoDesdeLocalStorage, 500);
 
     return () => {
