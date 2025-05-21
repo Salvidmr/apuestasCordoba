@@ -23,6 +23,7 @@ import PerfilUsuario from './pages/PerfilUsuario';
 import UsuarioReglas from './pages/UsuarioReglas';
 import RecuperarPassword from './pages/RecuperarPassword';
 import ListadoUsuarios from './pages/ListadoUsuarios';
+import Terminos from './pages/Terminos';
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem('token'));
@@ -143,6 +144,9 @@ function App() {
         path="/usuario/competicion/:id/reglas"
         element={token && rol === "user" ? <UsuarioReglas /> : <Navigate to="/login" />}
       />
+
+      <Route path="/terminos" element={<Terminos />} />
+
 
 
       <Route

@@ -118,6 +118,15 @@ function Register() {
             Inicia sesión aquí
           </span>
         </p>
+        <p className="text-sm text-center mt-4">
+          {" "}
+          <span
+            className="text-green-700 font-medium cursor-pointer hover:underline"
+            onClick={() => navigate("/terminos")}
+          >
+            Términos y condiciones
+          </span>
+        </p>
       </div>
     </div>
   );
