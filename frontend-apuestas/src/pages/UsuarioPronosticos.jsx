@@ -161,19 +161,18 @@ function UsuarioPronosticos() {
               return (
                 <div
                   key={p.id}
-                  className={`bg-white p-4 rounded shadow grid grid-cols-3 items-center gap-2 sm:gap-4 ${yaEmpezo ? "opacity-70" : ""
-                    }`}
+                  className={`bg-white p-6 rounded-xl border-2 border-green-500 grid grid-cols-3 items-center gap-4 sm:gap-6 md:gap-10 ${yaEmpezo ? "opacity-60" : "hover:shadow-lg"} transition duration-200`}
                 >
                   {/* Equipo Local */}
                   <div className="flex flex-col items-center">
-                    <img src={p.equipoLocal.escudoUrl} alt="local" className="h-10 w-10" />
-                    <span className="text-sm font-medium text-center">{p.equipoLocal.nombre}</span>
+                    <img src={p.equipoLocal.escudoUrl} alt="local" className="h-14 w-14 sm:h-20 sm:w-20" />
+                    <span className="text-sm sm:text-base font-medium text-center mt-1">{p.equipoLocal.nombre}</span>
                   </div>
 
                   {/* Pronóstico */}
-                  <div className="text-center">
+                  <div className="text-center text-lg sm:text-xl font-semibold">
                     {yaEmpezo ? (
-                      <div className="text-sm text-gray-700">
+                      <div className="text-sm sm:text-base text-gray-700">
                         <div className="font-semibold mb-1">Pronóstico:</div>
                         {pron.golesLocal !== undefined && pron.golesVisitante !== undefined ? (
                           <span>{pron.golesLocal} - {pron.golesVisitante}</span>
@@ -182,36 +181,32 @@ function UsuarioPronosticos() {
                         )}
                       </div>
                     ) : pron.editando ? (
-                      <div className="flex gap-2 justify-center items-center">
+                      <div className="flex gap-3 justify-center items-center">
                         <input
                           type="number"
-                          className="w-12 border text-center rounded p-1"
+                          className="w-14 sm:w-16 text-xl text-center border rounded p-1"
                           value={pron.golesLocal ?? ""}
-                          onChange={(e) =>
-                            handleInputChange(p.id, "golesLocal", e.target.value)
-                          }
+                          onChange={(e) => handleInputChange(p.id, "golesLocal", e.target.value)}
                         />
                         <span>-</span>
                         <input
                           type="number"
-                          className="w-12 border text-center rounded p-1"
+                          className="w-14 sm:w-16 text-xl text-center border rounded p-1"
                           value={pron.golesVisitante ?? ""}
-                          onChange={(e) =>
-                            handleInputChange(p.id, "golesVisitante", e.target.value)
-                          }
+                          onChange={(e) => handleInputChange(p.id, "golesVisitante", e.target.value)}
                         />
                         <button
                           onClick={() => guardarPronostico(p.id)}
-                          className="bg-green-600 text-white px-2 py-1 rounded hover:bg-green-700 text-sm"
+                          className="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700 text-sm"
                         >
                           Guardar
                         </button>
                       </div>
                     ) : (
-                      <div className="text-sm flex items-center justify-center gap-2">
-                        <span className="font-semibold">{pron.golesLocal ?? "-"} - {pron.golesVisitante ?? "-"}</span>
+                      <div className="flex items-center justify-center gap-2 text-xl sm:text-2xl">
+                        <span>{pron.golesLocal ?? "-"} - {pron.golesVisitante ?? "-"}</span>
                         <button onClick={() => activarEdicion(p.id)} title="Editar">
-                          <Pencil size={18} className="text-green-700 hover:text-green-900" />
+                          <Pencil size={20} className="text-green-700 hover:text-green-900" />
                         </button>
                       </div>
                     )}
@@ -219,8 +214,8 @@ function UsuarioPronosticos() {
 
                   {/* Equipo Visitante */}
                   <div className="flex flex-col items-center">
-                    <img src={p.equipoVisitante.escudoUrl} alt="visitante" className="h-10 w-10" />
-                    <span className="text-sm font-medium text-center">{p.equipoVisitante.nombre}</span>
+                    <img src={p.equipoVisitante.escudoUrl} alt="visitante" className="h-14 w-14 sm:h-20 sm:w-20" />
+                    <span className="text-sm sm:text-base font-medium text-center mt-1">{p.equipoVisitante.nombre}</span>
                   </div>
                 </div>
               );
