@@ -35,6 +35,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/usuarios/login", "/api/usuarios/registrar").permitAll()
                         .requestMatchers(HttpMethod.PUT, "/api/usuarios/recuperar-password/**").permitAll()
                         .requestMatchers("/api/test/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/usuarios/enviar-pin-temporal/**").permitAll()
+                        .requestMatchers(HttpMethod.PUT, "/api/usuarios/recuperar-password-temporal").permitAll()
 
                         // Rutas solo para ADMIN
                         .requestMatchers(HttpMethod.POST, "/api/competiciones/crear/**").hasAuthority("admin")

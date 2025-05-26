@@ -65,4 +65,13 @@ public class EmailService {
         }
     }
 
+    public void enviarPinTemporal(String destinatario, String nombreUsuario, String pin) {
+        SimpleMailMessage mensaje = new SimpleMailMessage();
+        mensaje.setTo(destinatario);
+        mensaje.setSubject("Recuperación de contraseña - PIN Temporal");
+        mensaje.setText("Hola " + nombreUsuario + ",\n\nTu PIN temporal para recuperar tu contraseña es: " + pin +
+                "\n\nEste PIN expirará en 15 minutos.\n\nArcanfield Road ⚽");
+        mailSender.send(mensaje);
+    }
+
 }

@@ -1,4 +1,5 @@
 package com.miapp.apuestasCordoba.controller;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -13,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.miapp.apuestasCordoba.model.Usuario;
+import com.miapp.apuestasCordoba.repository.UsuarioRepository;
 import com.miapp.apuestasCordoba.security.PasswordEncoderUtil;
 import com.miapp.apuestasCordoba.service.EmailService;
+import com.miapp.apuestasCordoba.service.PinTemporalService;
 import com.miapp.apuestasCordoba.service.UsuarioService;
 
 // Controlador que gestiona los usuarios
@@ -27,6 +30,12 @@ public class UsuarioController {
 
 	@Autowired
 	private EmailService emailService;
+
+	@Autowired
+	private UsuarioRepository usuarioRepository;
+
+	@Autowired
+	private PinTemporalService pinTemporalService;
 
 	// Endpoint que permite a una persona registrarse
 	@PostMapping("/registrar")
@@ -74,7 +83,8 @@ public class UsuarioController {
 				: ResponseEntity.badRequest().body("No se pudo actualizar el usuario.");
 	}
 
-	// Endpoint que permite recuperar la contraseña en caso de perderla (se recupera con un PIN)
+	// Endpoint que permite recuperar la contraseña en caso de perderla (se recupera
+	// con un PIN)
 	@PutMapping("/recuperar-password/{nombreUsuario}")
 	public ResponseEntity<String> recuperarPassword(
 			@PathVariable String nombreUsuario,
@@ -131,4 +141,55 @@ public class UsuarioController {
 			return ResponseEntity.badRequest().body("No se pudo eliminar el usuario.");
 		}
 	}
+
+	@PostMapping("/enviar-pin-temporal/{nombreUsuario}")
+	public ResponseEntity<String> enviarPinTemporal(@PathVariable String nombreUsuario) {
+		Optional<Usuario> usuarioOpt = usuarioRepository.findByNombreUsuario(nombreUsuario.trim());
+
+		if (usuarioOpt.isEmpty()) {
+			return ResponseEntity.badRequest().body("Usuario no encontrado.");
+		}
+
+		Usuario usuario = usuarioOpt.get();
+
+		if (usuario.getEmail() == null || usuario.getEmail().isBlank()) {
+			return ResponseEntity.badRequest().body("El usuario no tiene un email registrado.");
+		}
+
+		pinTemporalService.generarPin(nombreUsuario);
+		String pin = pinTemporalService.obtenerPin(nombreUsuario);
+
+		emailService.enviarPinTemporal(usuario.getEmail(), nombreUsuario, pin);
+
+		return ResponseEntity.ok("PIN temporal enviado al correo.");
+	}
+
+	@PutMapping("/recuperar-password-temporal")
+	public ResponseEntity<String> recuperarPasswordConPinTemporal(@RequestBody Map<String, String> datos) {
+		String nombreUsuario = datos.get("nombreUsuario").trim();
+		String nuevoPassword = datos.get("nuevaPassword");
+		String pinIngresado = datos.get("pin");
+
+		if (nombreUsuario == null || nuevoPassword == null || pinIngresado == null) {
+			return ResponseEntity.badRequest().body("Faltan datos necesarios.");
+		}
+
+		if (!pinTemporalService.validarPin(nombreUsuario, pinIngresado)) {
+			return ResponseEntity.badRequest().body("PIN temporal inválido o expirado.");
+		}
+
+		Optional<Usuario> usuarioOpt = usuarioRepository.findByNombreUsuario(nombreUsuario);
+		if (usuarioOpt.isEmpty()) {
+			return ResponseEntity.badRequest().body("Usuario no encontrado.");
+		}
+
+		Usuario usuario = usuarioOpt.get();
+		usuario.setPassword(PasswordEncoderUtil.encode(nuevoPassword));
+		usuarioRepository.save(usuario);
+
+		pinTemporalService.eliminarPin(nombreUsuario);
+
+		return ResponseEntity.ok("Contraseña actualizada correctamente.");
+	}
+
 }

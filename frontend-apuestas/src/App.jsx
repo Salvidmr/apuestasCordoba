@@ -24,6 +24,8 @@ import UsuarioReglas from './pages/UsuarioReglas';
 import RecuperarPassword from './pages/RecuperarPassword';
 import ListadoUsuarios from './pages/ListadoUsuarios';
 import Terminos from './pages/Terminos';
+import RecuperacionOpciones from './pages/RecuperacionOpciones';
+import RecuperarTemporal from './pages/RecuperarTemporal';
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem('token'));
@@ -146,6 +148,10 @@ function App() {
       />
 
       <Route path="/terminos" element={<Terminos />} />
+
+      <Route path="/recuperar-opciones" element={<RecuperacionOpciones />} />
+
+      <Route path="/recuperar-temporal" element={<RecuperarTemporal />} />
 
 
 

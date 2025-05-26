@@ -107,7 +107,7 @@ function Login() {
 
         <p className="mt-2 text-sm text-center">
           ¿Olvidaste tu contraseña?{" "}
-          <Link to="/recuperar" className="text-green-700 font-semibold hover:underline">
+          <Link to="/recuperar-opciones" className="text-green-700 font-semibold hover:underline">
             Recupérala aquí
           </Link>
         </p>
