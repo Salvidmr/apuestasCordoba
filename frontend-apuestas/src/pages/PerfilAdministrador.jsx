@@ -7,7 +7,6 @@ function PerfilAdministrador() {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const id = localStorage.getItem("id");
-  const [copiado, setCopiado] = useState(false);
   const API_URL = import.meta.env.VITE_API_URL;
 
   const [usuario, setUsuario] = useState({
@@ -15,6 +14,7 @@ function PerfilAdministrador() {
     nombreYapellidos: "",
     email: "",
     password: "",
+    pin: ""
   });
 
   const [mensaje, setMensaje] = useState("");
@@ -25,7 +25,7 @@ function PerfilAdministrador() {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
-      setUsuario({ ...data, password: "" }); 
+      setUsuario({ ...data, password: "" }); // vaciamos password por seguridad
     } catch (err) {
       console.error("Error al obtener datos del perfil", err);
     }
@@ -34,6 +34,12 @@ function PerfilAdministrador() {
   const actualizarPerfil = async (e) => {
     e.preventDefault();
 
+    // No incluir contraseña si no se quiere cambiar
+    const usuarioAEnviar = { ...usuario };
+    if (!usuario.password.trim()) {
+      delete usuarioAEnviar.password;
+    }
+
     try {
       const res = await fetch(`${API_URL}/api/usuarios/${id}`, {
         method: "PUT",
@@ -41,16 +47,19 @@ function PerfilAdministrador() {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(usuario),
+        body: JSON.stringify(usuarioAEnviar),
       });
 
       const texto = await res.text();
 
       if (res.ok) {
-        setMensaje("Perfil actualizado correctamente.");
-        localStorage.setItem("nombreUsuario", usuario.nombreUsuario);
-        localStorage.setItem("nombreYapellidos", usuario.nombreYapellidos || "");
-        setTimeout(() => navigate("/admin"), 1500);
+        setMensaje("Perfil actualizado correctamente. Volviendo al inicio de sesión...");
+
+        // Limpiar localStorage para forzar nuevo login
+        setTimeout(() => {
+          localStorage.clear();
+          navigate("/login");
+        }, 1500);
       } else {
         setMensaje(texto);
       }
@@ -122,9 +131,7 @@ function PerfilAdministrador() {
                 try {
                   const res = await fetch(`${API_URL}/api/usuarios/enviar-pin/${id}`, {
                     method: "POST",
-                    headers: {
-                      Authorization: `Bearer ${token}`,
-                    },
+                    headers: { Authorization: `Bearer ${token}` },
                   });
 
                   if (res.ok) {

@@ -36,10 +36,13 @@ function PerfilUsuario() {
   };
 
   const handleActualizar = async () => {
-    const usuarioActualizado = {
-      ...usuario,
-      password: nuevaPassword !== "" ? nuevaPassword : usuario.password,
-    };
+    const usuarioActualizado = { ...usuario };
+    if (nuevaPassword.trim() !== "") {
+      usuarioActualizado.password = nuevaPassword;
+    } else {
+      delete usuarioActualizado.password;
+    }
+
 
     try {
       const res = await fetch(`${API_URL}/api/usuarios/${id}`, {
@@ -52,8 +55,11 @@ function PerfilUsuario() {
       });
       const resultado = await res.text();
       if (res.ok) {
-        setMensaje("Perfil actualizado con éxito.");
-        setTimeout(() => navigate("/usuario"), 1500);
+        setMensaje("Nombre de usuario actualizado. Por favor, vuelve a iniciar sesión.");
+        setTimeout(() => {
+          localStorage.clear();
+          navigate("/login");
+        }, 1500);
       } else {
         setMensaje(resultado);
       }
