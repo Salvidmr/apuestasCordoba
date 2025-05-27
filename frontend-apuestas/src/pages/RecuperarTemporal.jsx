@@ -143,10 +143,6 @@ function RecuperarTemporal() {
       >
         ← Volver al inicio de sesión
       </button>
-
-      <footer className="text-xs text-gray-500 mt-6 text-center">
-        &copy; 2024 Arcanfield Road. Todos los derechos reservados.
-      </footer>
     </div>
   );
 }

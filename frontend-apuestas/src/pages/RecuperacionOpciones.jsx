@@ -55,11 +55,6 @@ function RecuperacionOpciones() {
           ← Volver al inicio de sesión
         </button>
       </div>
-
-      {/* Footer */}
-      <footer className="text-xs text-gray-500 mt-8 text-center">
-        &copy; 2024 Arcanfield Road. Todos los derechos reservados.
-      </footer>
     </div>
   );
 }
