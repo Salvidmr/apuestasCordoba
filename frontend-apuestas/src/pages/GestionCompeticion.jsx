@@ -1,22 +1,52 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import logo from "../assets/logo.png";
-import {  CalendarPlus, Users, Eye, Trophy, Megaphone, Settings, ArrowLeft } from "lucide-react";
+import {CalendarPlus, Users, Eye, Trophy, Megaphone, Settings, ArrowLeft, CheckCircle,} from "lucide-react";
 
 function GestionCompeticion() {
   const { id } = useParams();
-  const [competicion, setCompeticion] = useState(null);
-  const token = localStorage.getItem("token");
   const navigate = useNavigate();
+  const location = useLocation();
+  const [competicion, setCompeticion] = useState(null);
+  const [mensajeExito, setMensajeExito] = useState("");
+  const [mostrarMensaje, setMostrarMensaje] = useState(false);
+
+  const token = localStorage.getItem("token");
   const API_URL = import.meta.env.VITE_API_URL;
 
+  // ✅ Detectar mensaje de éxito
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const success = params.get("success");
+
+    if (success && !mostrarMensaje) {
+      if (success === "creado") {
+        setMensajeExito("✅ Partido creado con éxito");
+      } else if (success === "resultado") {
+        setMensajeExito("✅ Resultado asignado correctamente");
+      }
+
+      setMostrarMensaje(true);
+
+      // Limpiar el mensaje después de 3s
+      const timer = setTimeout(() => {
+        setMostrarMensaje(false);
+        setMensajeExito("");
+        params.delete("success");
+        const cleanUrl = location.pathname;
+        navigate(cleanUrl, { replace: true }); // quita el query param
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [location.search, navigate, mostrarMensaje, location.pathname]);
+
+  // 🔁 Cargar datos de la competición
   useEffect(() => {
     const fetchCompeticion = async () => {
       try {
         const res = await fetch(`${API_URL}/api/competiciones/${id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         });
         const data = await res.json();
         setCompeticion(data);
@@ -38,7 +68,17 @@ function GestionCompeticion() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-100 relative">
+      {/* ✅ Mensaje centrado, bonito y animado */}
+      {mostrarMensaje && (
+        <div className="fixed inset-0 flex items-center justify-center z-50 pointer-events-none">
+          <div className="bg-green-600 text-white px-6 py-4 rounded-xl shadow-2xl flex items-center gap-3 animate-fade-in-out text-lg font-semibold">
+            <CheckCircle size={24} className="text-white" />
+            {mensajeExito}
+          </div>
+        </div>
+      )}
+
       {/* Header */}
       <header className="bg-white shadow-md py-4 px-6 flex items-center justify-between">
         <div className="flex items-center space-x-4">
@@ -46,8 +86,13 @@ function GestionCompeticion() {
           <h1 className="text-2xl font-bold text-green-700">Arcanfield Road</h1>
         </div>
         <div className="text-sm text-gray-700 font-semibold">
-          Admin: <span className="text-green-700" onClick={() => navigate("/admin/perfil")}>
-            {localStorage.getItem("nombreUsuario")}</span>
+          Admin:{" "}
+          <span
+            className="text-green-700 cursor-pointer"
+            onClick={() => navigate("/admin/perfil")}
+          >
+            {localStorage.getItem("nombreUsuario")}
+          </span>
         </div>
       </header>
 
@@ -56,7 +101,8 @@ function GestionCompeticion() {
         {competicion ? (
           <>
             <h2 className="text-2xl font-bold text-gray-800 mb-6">
-              Gestionando: <span className="text-green-700">{competicion.nombre}</span>
+              Gestionando:{" "}
+              <span className="text-green-700">{competicion.nombre}</span>
             </h2>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
@@ -72,7 +118,6 @@ function GestionCompeticion() {
               ))}
             </div>
 
-            {/* Botón para volver */}
             <div className="text-center">
               <button
                 onClick={() => navigate("/admin")}
