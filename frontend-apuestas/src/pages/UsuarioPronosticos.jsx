@@ -10,9 +10,11 @@ function UsuarioPronosticos() {
   const usuarioId = localStorage.getItem("id");
   const nombreUsuario = localStorage.getItem("nombreUsuario");
   const API_URL = import.meta.env.VITE_API_URL;
+
   const [competicion, setCompeticion] = useState(null);
   const [partidos, setPartidos] = useState([]);
   const [pronosticos, setPronosticos] = useState({});
+  const [loadingId, setLoadingId] = useState(null); // 👈 nuevo estado
 
   const fetchCompeticion = async () => {
     const res = await fetch(`${API_URL}/api/competiciones/${competicionId}`, {
@@ -59,30 +61,41 @@ function UsuarioPronosticos() {
     const apuesta = pronosticos[partidoId];
     if (!apuesta) return;
 
-    const res = await fetch(
-      `${API_URL}/api/apuestas/realizar/${usuarioId}/${partidoId}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          golesLocal: parseInt(apuesta.golesLocal),
-          golesVisitante: parseInt(apuesta.golesVisitante),
-        }),
-      }
-    );
+    setLoadingId(partidoId); // 👈 activa loading para este partido
 
-    if (res.ok) {
-      setPronosticos((prev) => ({
-        ...prev,
-        [partidoId]: {
-          ...prev[partidoId],
-          editando: false,
-        },
-      }));
-      fetchPronosticos();
+    try {
+      const res = await fetch(
+        `${API_URL}/api/apuestas/realizar/${usuarioId}/${partidoId}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            golesLocal: parseInt(apuesta.golesLocal),
+            golesVisitante: parseInt(apuesta.golesVisitante),
+          }),
+        }
+      );
+
+      if (res.ok) {
+        setPronosticos((prev) => ({
+          ...prev,
+          [partidoId]: {
+            ...prev[partidoId],
+            editando: false,
+          },
+        }));
+        await fetchPronosticos();
+      } else {
+        alert("❌ Error al guardar el pronóstico.");
+      }
+    } catch (err) {
+      console.error("Error al guardar pronóstico:", err);
+      alert("❌ Error inesperado.");
+    } finally {
+      setLoadingId(null); // 👈 desactiva loading
     }
   };
 
@@ -119,7 +132,9 @@ function UsuarioPronosticos() {
       <header className="bg-green-700 text-white py-4 px-6 flex justify-between items-center">
         <img src={logo} alt="Logo" className="h-10 w-auto" />
         <h1 className="text-xl font-bold text-center">{competicion?.nombre || "..."}</h1>
-        <span className="text-sm font-semibold" onClick={() => navigate("/usuario/perfil")}>{nombreUsuario}</span>
+        <span className="text-sm font-semibold cursor-pointer" onClick={() => navigate("/usuario/perfil")}>
+          {nombreUsuario}
+        </span>
       </header>
 
       <nav className="bg-green-200 shadow flex divide-x divide-green-300">
@@ -197,9 +212,14 @@ function UsuarioPronosticos() {
                         />
                         <button
                           onClick={() => guardarPronostico(p.id)}
-                          className="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700 text-sm"
+                          disabled={loadingId === p.id}
+                          className={`px-3 py-1 rounded text-sm font-semibold ${
+                            loadingId === p.id
+                              ? "bg-green-400 cursor-wait"
+                              : "bg-green-600 hover:bg-green-700"
+                          } text-white`}
                         >
-                          Guardar
+                          {loadingId === p.id ? "Guardando..." : "Guardar"}
                         </button>
                       </div>
                     ) : (
