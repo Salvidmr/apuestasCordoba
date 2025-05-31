@@ -66,12 +66,9 @@ function CrearPartido() {
 
       if (res.ok) {
         navigate(`/admin/competicion/${competicionId}?success=creado`);
-      } else {
-        alert("Error al crear partido.");
       }
     } catch (err) {
       console.error("Error al crear partido", err);
-      alert("Error inesperado al crear partido.");
     } finally {
       setLoadingCrear(false);
     }
@@ -140,7 +137,6 @@ function CrearPartido() {
       }
     } catch (err) {
       console.error("Error al guardar resultado", err);
-      alert("Error inesperado.");
     }
   };
 
@@ -232,9 +228,9 @@ function CrearPartido() {
               {partidoYaPaso(p.fechaHora) ? (
                 editandoResultado[p.id] ? (
                   <div className="flex items-center gap-2">
-                    <input type="number" className="w-12 text-center border rounded p-1" value={resultados[p.id]?.golesLocal ?? p.golesLocal ?? ""} onChange={(e) => handleInputChange(p.id, "golesLocal", e.target.value)} />
+                    <input type="number" min="0" className="w-12 text-center border rounded p-1" value={resultados[p.id]?.golesLocal ?? p.golesLocal ?? ""} onChange={(e) => handleInputChange(p.id, "golesLocal", e.target.value)} />
                     <span>-</span>
-                    <input type="number" className="w-12 text-center border rounded p-1" value={resultados[p.id]?.golesVisitante ?? p.golesVisitante ?? ""} onChange={(e) => handleInputChange(p.id, "golesVisitante", e.target.value)} />
+                    <input type="number" min="0" className="w-12 text-center border rounded p-1" value={resultados[p.id]?.golesVisitante ?? p.golesVisitante ?? ""} onChange={(e) => handleInputChange(p.id, "golesVisitante", e.target.value)} />
                     <button onClick={() => guardarResultado(p.id)} className="bg-green-600 text-white px-2 py-1 rounded hover:bg-green-700 text-sm">Guardar</button>
                   </div>
                 ) : (

@@ -8,8 +8,10 @@ function ConfiguracionCompeticion() {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const API_URL = import.meta.env.VITE_API_URL;
+
   const [puntosExacto, setPuntosExacto] = useState(3);
   const [puntosSimple, setPuntosSimple] = useState(1);
+  const [mensaje, setMensaje] = useState("");
 
   const fetchConfiguracion = async () => {
     try {
@@ -47,7 +49,10 @@ function ConfiguracionCompeticion() {
           }),
         }
       );
-      if (res.ok) alert("Configuración actualizada correctamente.");
+      if (res.ok) {
+        setMensaje("Configuración actualizada correctamente");
+        setTimeout(() => setMensaje(""), 3000); 
+      }
     } catch (err) {
       console.error("Error al guardar configuración", err);
     }
@@ -58,7 +63,14 @@ function ConfiguracionCompeticion() {
   }, [competicionId, token]);
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-100 relative">
+      {/* ✅ Mensaje de éxito */}
+      {mensaje && (
+        <div className="fixed top-24 left-1/2 transform -translate-x-1/2 bg-green-600 text-white px-6 py-3 rounded-xl shadow-xl z-50 text-lg font-semibold animate-pulse">
+          {mensaje}
+        </div>
+      )}
+
       {/* Header */}
       <header className="bg-white shadow-md py-4 px-6 flex items-center justify-between">
         <div className="flex items-center space-x-4">
@@ -67,8 +79,12 @@ function ConfiguracionCompeticion() {
         </div>
         <div className="text-sm text-gray-700 font-semibold">
           Admin:{" "}
-          <span className="text-green-700" onClick={() => navigate("/admin/perfil")}>
-            {localStorage.getItem("nombreUsuario")}</span>
+          <span
+            className="text-green-700 cursor-pointer"
+            onClick={() => navigate("/admin/perfil")}
+          >
+            {localStorage.getItem("nombreUsuario")}
+          </span>
         </div>
       </header>
 
