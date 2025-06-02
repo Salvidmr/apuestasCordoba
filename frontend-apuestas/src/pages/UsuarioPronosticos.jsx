@@ -14,7 +14,7 @@ function UsuarioPronosticos() {
   const [competicion, setCompeticion] = useState(null);
   const [partidos, setPartidos] = useState([]);
   const [pronosticos, setPronosticos] = useState({});
-  const [loadingId, setLoadingId] = useState(null); // 👈 nuevo estado
+  const [loadingId, setLoadingId] = useState(null);
 
   const fetchCompeticion = async () => {
     const res = await fetch(`${API_URL}/api/competiciones/${competicionId}`, {
@@ -61,7 +61,7 @@ function UsuarioPronosticos() {
     const apuesta = pronosticos[partidoId];
     if (!apuesta) return;
 
-    setLoadingId(partidoId); // 👈 activa loading para este partido
+    setLoadingId(partidoId);
 
     try {
       const res = await fetch(
@@ -95,7 +95,7 @@ function UsuarioPronosticos() {
       console.error("Error al guardar pronóstico:", err);
       alert("❌ Error inesperado.");
     } finally {
-      setLoadingId(null); // 👈 desactiva loading
+      setLoadingId(null);
     }
   };
 
@@ -132,17 +132,11 @@ function UsuarioPronosticos() {
       <header className="bg-green-700 text-white py-4 px-6 flex justify-between items-center">
         <img src={logo} alt="Logo" className="h-10 w-auto" />
         <h1 className="text-xl font-bold text-center">{competicion?.nombre || "..."}</h1>
-        <span className="text-sm font-semibold cursor-pointer" onClick={() => navigate("/usuario/perfil")}>
-          {nombreUsuario}
-        </span>
+        <span className="text-sm font-semibold cursor-pointer" onClick={() => navigate("/usuario/perfil")}>{nombreUsuario}</span>
       </header>
 
       <nav className="bg-green-200 shadow flex divide-x divide-green-300">
-        {[
-          { label: "Realizar Pronósticos", ruta: "pronosticar" },
-          { label: "Clasificación", ruta: "clasificacion" },
-          { label: "Ver Pronósticos", ruta: "ver-pronosticos" },
-        ].map((opcion) => (
+        {[{ label: "Realizar Pronósticos", ruta: "pronosticar" }, { label: "Clasificación", ruta: "clasificacion" }, { label: "Ver Pronósticos", ruta: "ver-pronosticos" }].map((opcion) => (
           <button
             key={opcion.ruta}
             onClick={() => navigate(`/usuario/competicion/${competicionId}/${opcion.ruta}`)}
@@ -168,74 +162,66 @@ function UsuarioPronosticos() {
         {partidos.length === 0 ? (
           <p className="text-center text-gray-600">No hay partidos disponibles.</p>
         ) : (
-          <div className="space-y-4">
+          <div className="space-y-6">
             {partidos.map((p) => {
               const yaEmpezo = partidoYaEmpezo(p.fechaHora);
               const pron = pronosticos[p.id] || {};
 
               return (
-                <div
-                  key={p.id}
-                  className={`bg-white p-6 rounded-xl border-2 border-green-500 grid grid-cols-3 items-center gap-4 sm:gap-6 md:gap-10 ${yaEmpezo ? "opacity-60" : "hover:shadow-lg"} transition duration-200`}
-                >
-                  {/* Equipo Local */}
-                  <div className="flex flex-col items-center">
-                    <img src={p.equipoLocal.escudoUrl} alt="local" className="h-14 w-14 sm:h-20 sm:w-20" />
-                    <span className="text-sm sm:text-base font-medium text-center mt-1">{p.equipoLocal.nombre}</span>
-                  </div>
+                <div key={p.id} className={`bg-white p-4 sm:p-6 rounded-xl border-2 border-green-500 transition duration-200 ${yaEmpezo ? "opacity-60" : "hover:shadow-lg"}`}>
+                  <div className="grid grid-cols-3 items-center text-center gap-4">
+                    <div className="flex flex-col items-center">
+                      <img src={p.equipoLocal.escudoUrl} alt="local" className="h-14 w-14 sm:h-20 sm:w-20" />
+                      <span className="text-sm sm:text-base font-medium text-center mt-1">{p.equipoLocal.nombre}</span>
+                    </div>
 
-                  {/* Pronóstico */}
-                  <div className="text-center text-lg sm:text-xl font-semibold">
-                    {yaEmpezo ? (
-                      <div className="text-sm sm:text-base text-gray-700">
-                        <div className="font-semibold mb-1">Pronóstico:</div>
-                        {pron.golesLocal !== undefined && pron.golesVisitante !== undefined ? (
-                          <span>{pron.golesLocal} - {pron.golesVisitante}</span>
-                        ) : (
-                          <span className="text-red-500">No realizaste pronóstico</span>
-                        )}
-                      </div>
-                    ) : pron.editando ? (
-                      <div className="flex gap-3 justify-center items-center">
-                        <input
-                          type="number"
-                          className="w-14 sm:w-16 text-xl text-center border rounded p-1"
-                          value={pron.golesLocal ?? ""}
-                          onChange={(e) => handleInputChange(p.id, "golesLocal", e.target.value)}
-                        />
-                        <span>-</span>
-                        <input
-                          type="number"
-                          className="w-14 sm:w-16 text-xl text-center border rounded p-1"
-                          value={pron.golesVisitante ?? ""}
-                          onChange={(e) => handleInputChange(p.id, "golesVisitante", e.target.value)}
-                        />
-                        <button
-                          onClick={() => guardarPronostico(p.id)}
-                          disabled={loadingId === p.id}
-                          className={`px-3 py-1 rounded text-sm font-semibold ${
-                            loadingId === p.id
-                              ? "bg-green-400 cursor-wait"
-                              : "bg-green-600 hover:bg-green-700"
-                          } text-white`}
-                        >
-                          {loadingId === p.id ? "Guardando..." : "Guardar"}
-                        </button>
-                      </div>
-                    ) : (
-                      <div className="flex items-center justify-center gap-2 text-xl sm:text-2xl">
-                        <span>{pron.golesLocal ?? "-"} - {pron.golesVisitante ?? "-"}</span>
-                        <button onClick={() => activarEdicion(p.id)} title="Editar">
-                          <Pencil size={20} className="text-green-700 hover:text-green-900" />
-                        </button>
-                      </div>
-                    )}
-                  </div>
+                    <div className="flex flex-col items-center justify-center">
+                      {yaEmpezo ? (
+                        <div className="text-sm sm:text-base text-gray-700">
+                          <div className="font-semibold mb-1">Pronóstico:</div>
+                          {pron.golesLocal !== undefined && pron.golesVisitante !== undefined ? (
+                            <span>{pron.golesLocal} - {pron.golesVisitante}</span>
+                          ) : (
+                            <span className="text-red-500">No realizaste pronóstico</span>
+                          )}
+                        </div>
+                      ) : pron.editando ? (
+                        <div className="flex flex-col items-center gap-1">
+                          <input
+                            type="number"
+                            className="w-16 text-xl text-center border rounded p-1"
+                            value={pron.golesLocal ?? ""}
+                            onChange={(e) => handleInputChange(p.id, "golesLocal", e.target.value)}
+                          />
+                          <span className="text-xl">-</span>
+                          <input
+                            type="number"
+                            className="w-16 text-xl text-center border rounded p-1"
+                            value={pron.golesVisitante ?? ""}
+                            onChange={(e) => handleInputChange(p.id, "golesVisitante", e.target.value)}
+                          />
+                          <button
+                            onClick={() => guardarPronostico(p.id)}
+                            disabled={loadingId === p.id}
+                            className={`mt-2 px-3 py-1 rounded text-sm font-semibold ${loadingId === p.id ? "bg-green-400 cursor-wait" : "bg-green-600 hover:bg-green-700"} text-white`}
+                          >
+                            {loadingId === p.id ? "Guardando..." : "Guardar"}
+                          </button>
+                        </div>
+                      ) : (
+                        <div className="flex items-center justify-center gap-2 text-xl sm:text-2xl">
+                          <span>{pron.golesLocal ?? "-"} - {pron.golesVisitante ?? "-"}</span>
+                          <button onClick={() => activarEdicion(p.id)} title="Editar">
+                            <Pencil size={20} className="text-green-700 hover:text-green-900" />
+                          </button>
+                        </div>
+                      )}
+                    </div>
 
-                  {/* Equipo Visitante */}
-                  <div className="flex flex-col items-center">
-                    <img src={p.equipoVisitante.escudoUrl} alt="visitante" className="h-14 w-14 sm:h-20 sm:w-20" />
-                    <span className="text-sm sm:text-base font-medium text-center mt-1">{p.equipoVisitante.nombre}</span>
+                    <div className="flex flex-col items-center">
+                      <img src={p.equipoVisitante.escudoUrl} alt="visitante" className="h-14 w-14 sm:h-20 sm:w-20" />
+                      <span className="text-sm sm:text-base font-medium text-center mt-1">{p.equipoVisitante.nombre}</span>
+                    </div>
                   </div>
                 </div>
               );
