@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
+import patrocinadores from "../assets/patrocinadores.jpeg";
 
 function UsuarioHome() {
   const [competiciones, setCompeticiones] = useState([]);
@@ -39,14 +40,14 @@ function UsuarioHome() {
     <div className="min-h-screen flex flex-col bg-gray-100">
       {/* Header */}
       <header className="bg-green-700 text-white py-4 px-6 flex justify-between items-center">
-      <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate("/usuario/perfil")}>
-      <div className="bg-white text-green-700 font-bold rounded-full h-10 w-10 flex items-center justify-center text-lg shadow">
-        {nombreUsuario?.charAt(0).toUpperCase()}
-      </div>
-      <span className="text-lg font-semibold underline hover:text-gray-100">
-        {nombreUsuario}
-      </span>
-      </div>
+        <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate("/usuario/perfil")}>
+          <div className="bg-white text-green-700 font-bold rounded-full h-10 w-10 flex items-center justify-center text-lg shadow">
+            {nombreUsuario?.charAt(0).toUpperCase()}
+          </div>
+          <span className="text-lg font-semibold underline hover:text-gray-100">
+            {nombreUsuario}
+          </span>
+        </div>
         <div className="flex items-center justify-center gap-3">
           <img src={logo} alt="Logo" className="h-10 w-auto" />
           <h1 className="text-2xl font-bold hidden sm:block">Arcanfield Road</h1>
@@ -87,6 +88,16 @@ function UsuarioHome() {
           <p className="text-gray-600">No estás participando en ninguna competición.</p>
         )}
       </main>
+
+      <section className="container mx-auto px-6 py-8 text-center">
+        <h3 className="text-lg font-semibold mb-4 text-green-700">Patrocinadores Arcanfield Road</h3>
+        <img
+          src={patrocinadores}
+          alt="Patrocinadores Arcanfield Road"
+          className="mx-auto rounded shadow-lg w-full max-w-md h-auto"
+        />
+      </section>
+
 
       {/* Footer */}
       <footer className="bg-green-700 text-white py-3 text-center">
