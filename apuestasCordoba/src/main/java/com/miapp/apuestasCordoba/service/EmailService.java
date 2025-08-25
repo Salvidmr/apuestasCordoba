@@ -33,6 +33,7 @@ public class EmailService {
                 "🏟️ Partido:\n" +
                 nombreLocal + " vs " + nombreVisitante + "\n\n" +
                 "Ya puedes entrar en Arcanfield Road y realizar tu pronóstico.\n\n" +
+                "Accede aquí: https://arcanfieldroad.vercel.app/\n\n" +
                 "¡Suerte 🍀 y a jugar!\n\n" +
                 "— El equipo de Arcanfield Road ⚽";
 

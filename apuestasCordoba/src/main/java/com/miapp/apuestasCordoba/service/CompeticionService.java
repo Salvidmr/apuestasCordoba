@@ -10,6 +10,7 @@ import com.miapp.apuestasCordoba.model.Competicion;
 import com.miapp.apuestasCordoba.model.Usuario;
 import com.miapp.apuestasCordoba.repository.CompeticionRepository;
 import com.miapp.apuestasCordoba.repository.UsuarioRepository;
+import org.springframework.data.domain.Sort;
 
 @Service
 public class CompeticionService {
@@ -33,7 +34,7 @@ public class CompeticionService {
     }
 
     public List<Competicion> listarTodas() {
-        return competicionRepository.findAll();
+         return competicionRepository.findAll();
     }
     
     public Competicion obtenerPorId(Long id) {
@@ -42,7 +43,7 @@ public class CompeticionService {
 
 
     public List<Competicion> listarPorAdministrador(Long adminId) {
-        return competicionRepository.findByAdministradorId(adminId);
+        return competicionRepository.findByAdministradorId(adminId, Sort.by(Sort.Direction.DESC, "fechaCreacion"));
     }
     
     public String añadirParticipante(Long competicionId, Long usuarioId) {
@@ -116,7 +117,7 @@ public class CompeticionService {
     }
     
     public List<Competicion> listarMisCompeticiones(Long usuarioId) {
-        return competicionRepository.findAllByParticipantesId(usuarioId);
+        return competicionRepository.findAllByParticipantesId(usuarioId, Sort.by(Sort.Direction.DESC, "fechaCreacion"));
     }
     
     
