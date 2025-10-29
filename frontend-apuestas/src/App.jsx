@@ -1,4 +1,49 @@
-import { Routes, Route, Navigate } from 'react-router-dom';
+function App() {
+  return (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        height: "100vh",
+        backgroundColor: "#f4f4f4",
+        color: "#222",
+        fontFamily: "Arial, sans-serif",
+        textAlign: "center",
+        padding: "2rem"
+      }}
+    >
+      <h1 style={{ fontSize: "2.5rem", marginBottom: "1rem" }}>🚀 Nos hemos mudado</h1>
+      <p style={{ fontSize: "1.2rem", marginBottom: "1.5rem" }}>
+        Nuestra nueva web está disponible en:
+      </p>
+      <a
+        href="https://arcanfieldroad.es"
+        style={{
+          color: "#1e90ff",
+          fontSize: "1.3rem",
+          textDecoration: "none",
+          fontWeight: "bold",
+          border: "2px solid #1e90ff",
+          padding: "0.5rem 1rem",
+          borderRadius: "8px",
+          transition: "all 0.3s ease"
+        }}
+        onMouseOver={(e) => (e.target.style.backgroundColor = "#1e90ff", e.target.style.color = "white")}
+        onMouseOut={(e) => (e.target.style.backgroundColor = "transparent", e.target.style.color = "#1e90ff")}
+      >
+        👉 Ir a arcanfieldroad.es
+      </a>
+    </div>
+  );
+}
+
+export default App;
+
+
+
+/*import { Routes, Route, Navigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 import Login from './pages/Login';
@@ -172,4 +217,4 @@ function App() {
 export default App;
 
 
-
+*/
