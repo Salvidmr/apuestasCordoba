@@ -32,7 +32,10 @@ function UsuarioPronosticos() {
     });
     if (res.ok) {
       const data = await res.json();
-      setPartidos(data);
+      const partidosOrdenados = data.sort(
+        (a, b) => new Date(b.fechaHora) - new Date(a.fechaHora)
+      );
+      setPartidos(partidosOrdenados);
     }
   };
 

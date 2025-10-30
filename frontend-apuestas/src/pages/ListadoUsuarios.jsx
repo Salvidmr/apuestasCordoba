@@ -77,6 +77,7 @@ function ListadoUsuarios() {
                 <th className="px-4 py-3">Nombre y apellidos</th>
                 <th className="px-4 py-3">Email</th>
                 <th className="px-4 py-3">PIN</th>
+                <th className="px-4 py-3">Fecha registro</th>
                 <th className="px-4 py-3 text-center">Acción</th>
               </tr>
             </thead>
@@ -94,6 +95,17 @@ function ListadoUsuarios() {
                     <td className="px-4 py-2">{usuario.nombreYapellidos}</td>
                     <td className="px-4 py-2">{usuario.email}</td>
                     <td className="px-4 py-2">{usuario.pin}</td>
+                    <td className="px-4 py-2">
+                      {usuario.fechaRegistro
+                        ? new Date(usuario.fechaRegistro).toLocaleString("es-ES", {
+                          day: "2-digit",
+                          month: "2-digit",
+                          year: "numeric",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        }).replace(",", " a las")
+                        : "—"}
+                    </td>
                     <td className="px-4 py-2 text-center">
                       {usuario.rol !== "admin" ? (
                         <button
